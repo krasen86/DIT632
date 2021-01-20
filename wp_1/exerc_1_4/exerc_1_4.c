@@ -6,10 +6,18 @@
 #define MAX_NUMBER 5
 #define INITIAL_PROMPT "Guess a number between 1-100\n"
 #define GUESS_LOW "Guess is too low, number of tries: %d\n"
-#define GUESS_HIGH "Guess it too high, number of tries: %d\n"
+#define GUESS_HIGH "Guess is too high, number of tries: %d\n"
 #define CORRECT_GUESS "You guessed correct! Total number of tries was %d \n"
 #define FAIL_GUESS "Sorry you ran out of tries!\n"
 #define PLAY_AGAIN "Would you like to play again? (y/n)?\n"
+
+int getIntegerInput() {   
+    char input[32];
+    int userInput;
+    fgets(input, sizeof (input), stdin);
+    sscanf(input, "%d", &userInput);
+    return userInput;
+}
 
 int main() {
     do {
@@ -18,16 +26,13 @@ int main() {
         int numberGuessed = 0;
         srand(time(NULL));
         int randomNumber = rand() % 100 + 1;
-        char guess[32];
         int guessedNumber;
         int numberOfTries = 1;
 
         printf("%d\n", randomNumber);
         printf(INITIAL_PROMPT);
         do{
-            fgets(guess, sizeof (guess), stdin);
-            sscanf(guess, "%d", &guessedNumber);
-
+            guessedNumber = getIntegerInput();
             if(guessedNumber<randomNumber) {
                 printf(GUESS_LOW, numberOfTries);
             }else if(guessedNumber>randomNumber) {
