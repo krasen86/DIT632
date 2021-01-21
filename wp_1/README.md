@@ -15,7 +15,7 @@ Create a very simple encryption program. The program is based on the principal o
 
 
 The user enters a text and the program prints out the encrypted text. Let the program read character by character, and encrypt it as above. The program is repeated until EOF indicated the program ends. (EOF, the user enters Ctrl +z for Windows and Ctrl + d for Linux system).
-[<img src="https://github.com/krasen86/DIT632/blob/work_product_1_branch/images/wp_1/wp1_exerc_1_3.png">](https://github.com/krasen86/DIT632/blob/work_product_1_branch/images/wp_1/wp1_exerc_1_3.png)
+[<img src="../images/wp_1/wp1_exerc_1_3.png">](../images/wp_1/wp1_exerc_1_3.png)
 
 Example of a test run :
 ```
