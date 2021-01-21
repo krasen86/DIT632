@@ -1,5 +1,7 @@
 #include "stdio.h"
 
+#define INPUT_PROMP "Please enter a string you want encrypted\n"
+#define ENCRYPTED_NOTIFICATION "Encrypted string: %s \n"
 #define SIZE_OF_LINE 256
 #define ENCRYPTION_VALUE 13
 #define LOWER_CASE_ASCII 96
@@ -12,7 +14,7 @@ int main() {
 
     do {
         int i = 0;
-        printf("Please enter a string you want encrypted\n");
+        printf(INPUT_PROMP);
         fgets(input, sizeof(input), stdin);
         while (input[i] != '\0') {
             if (input[i] > LOWER_CASE_ASCII) {
@@ -30,6 +32,6 @@ int main() {
             }
             i++;
         }
-        printf("Encrypted string: %s \n", input);
+        printf(ENCRYPTED_NOTIFICATION, input);
     } while(!feof(stdin));
 }
