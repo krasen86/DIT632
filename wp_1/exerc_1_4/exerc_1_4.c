@@ -10,42 +10,44 @@
 #define CORRECT_GUESS "You guessed correct! Total number of tries was %d \n"
 #define FAIL_GUESS "Sorry you ran out of tries!\n"
 #define PLAY_AGAIN "Would you like to play again? (y/n)?\n"
+#define MAX_CHARACTERS 32
 
 int getIntegerInput() {   
-    char input[32];
+    char input[MAX_CHARACTERS];
     int userInput;
     fgets(input, sizeof (input), stdin);
     sscanf(input, "%d", &userInput);
     return userInput;
 }
 
+// TODO: Don't forget to validate the input data to accept only 1-100 values and do not regard it as a valid try otherwise.
+
 int main() {
+    char answer[MAX_CHARACTERS], answerChar;
+    int guessedNumber, numberGuessed, numberOfTries, randomNumber;
+    srand(time(NULL));
+
     do {
-        char answer[32];
-        char answerChar;
-        int numberGuessed = 0;
-        srand(time(NULL));
-        int randomNumber = rand() % 100 + 1;
-        int guessedNumber;
-        int numberOfTries = 1;
+        numberGuessed = 0;
+        randomNumber = rand() % 100 + 1;
+        numberOfTries = 1;
 
         printf("%d\n", randomNumber);
         printf(INITIAL_PROMPT);
-        do{
+        do {
             guessedNumber = getIntegerInput();
-            if(guessedNumber<randomNumber) {
+            if (guessedNumber<randomNumber) {
                 printf(GUESS_LOW, numberOfTries);
-            }else if(guessedNumber>randomNumber) {
+            }else if (guessedNumber>randomNumber) {
                 printf(GUESS_HIGH, numberOfTries);
             }else {
                 printf(CORRECT_GUESS, numberOfTries);
                 numberGuessed = 1;
-                break;
             }
             numberOfTries++;
-        }while(guessedNumber != randomNumber && numberOfTries <= MAX_NUMBER);
+        } while (guessedNumber != randomNumber && numberOfTries <= MAX_NUMBER);
 
-        if(!numberGuessed) {
+        if (!numberGuessed) {
             printf(FAIL_GUESS);
         }
 
@@ -53,11 +55,10 @@ int main() {
         fgets(answer, sizeof (answer), stdin);
         sscanf(answer, "%c", &answerChar);
 
-        if(answerChar != 'y' || strlen(answer) > 2) {
+        if (answerChar != 'y' || strlen(answer) > 2) {
             return 0;
         }
 
-    } while (1);
-
+    } while (!feof(stdin));
 }
 
