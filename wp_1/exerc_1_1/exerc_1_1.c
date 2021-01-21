@@ -1,5 +1,6 @@
 #include "stdio.h"
 
+#define INPUT_PROMP "Please enter a number between 1 and 5.\n"
 #define SENTENCE_ONE   "You selected 1 \n"
 #define SENTENCE_TWO   "You selected 2 \n"
 #define SENTENCE_THREE "You selected 3 \n"
@@ -13,7 +14,7 @@ int main() {
     int selectedOption;
     do
     {
-        printf("Please enter a number between 1 and 5.\n");
+        printf(INPUT_PROMP);
         fgets(input, sizeof (input), stdin);
 
         if(sscanf(input, "%d", &selectedOption) != 1){

@@ -1,32 +1,37 @@
 #include "stdio.h"
 #include "string.h"
 
-#define MAX 500
-#define False 0
-#define True 1
+#define INPUT_PROMP "Enter a sentence\n"
+#define WORD_COUNT_NOTIFICATION "Total number of words in the sentence is: %d\n"
+#define MAX_CHARECTERS 500
+#define FALSE 0
+#define TRUE 1
 
 int main() {
 
-    char inputLine[MAX];
-    int count = 0, i;
-    int foundLetter = False;
+    char inputSentence[MAX_CHARECTERS];
+    int wordCount = 0;
+    int i;
+    int foundLetter = FALSE;
 
-    printf("Enter a sentence\n");
-    fgets(inputLine, MAX, stdin);
+    printf(INPUT_PROMP);
+    fgets(inputSentence, MAX_CHARECTERS, stdin);
     
-    for (i = 0; i < strlen(inputLine); i++)
+    for (i = 0; i < strlen(inputSentence); i++)
     {
-        if (inputLine[i] == ' ' || inputLine[i] == '\n')
-            foundLetter = False;
+        if (inputSentence[i] == ' ' || inputSentence[i] == '\n') {
+            foundLetter = FALSE;
+        }     
         else 
         {    
-            if (foundLetter == False)
-                count++;
-            foundLetter = True;
+            if (foundLetter == FALSE) {
+                wordCount++;
+            }   
+            foundLetter = TRUE;
         }
     }
 
-    printf("Total number of words in the sentence is: %d\n", count);
+    printf(WORD_COUNT_NOTIFICATION, wordCount);
     return 0;
 
 }
