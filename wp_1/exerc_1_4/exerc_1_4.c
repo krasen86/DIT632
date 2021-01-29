@@ -1,6 +1,6 @@
 /* ====================================
 File name: exerc_1_4.c (or cpp)
-Date: 2020-01-26
+Date: 2021-01-26
 Group nr 14
 Members that contribute to the solutions Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time:
