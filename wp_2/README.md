@@ -139,7 +139,7 @@ between one and three coins from the stack. Whoever are forced to take the last 
 
 Your task is to develop the game Nim by using the code skeleton which is available [here](../wp_2/skeleton_code/).
 
-The program is also available in the form of an executable demo program at the same [place](../wp_2/nim_demo/).
+The program is also available in the form of an executable demo program [here](../wp_2/nim_demo/).
 
 • Download the code skeleton. Read the code and the comments, and try to understand how the
 program is structured.
