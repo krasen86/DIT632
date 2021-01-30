@@ -17,7 +17,7 @@ Demonstration code: xxxx TODO replace with code from TA
 #define RESULT_STRING_USING_STRCPY "String: <%s> copied result using strcpy: <%s> \n" // output result to user for coping using strcpy
 #define RESULT_STRING_USING_CUSTOM "String: <%s> copied result using custom function: <%s> \n" // output result to user for coping using custom function
 #define EMPTY_STRING_MESSAGE "There is nothing to be copied...\n" // string for handling empty file/input
-#define END_OF_STRING '\0'
+#define END_OF_STRING '\0' // define end of string
 /* ==================================== Main program section ====================================== */
 /* This program reads a string of maximum of 20 characters and creates a copy of that string using a custom method (loop) and a library method.
  * The result of both copies is printed to the screen. Optionally the user may use a file instead of inputting the sting manually. */
