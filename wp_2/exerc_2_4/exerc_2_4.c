@@ -53,6 +53,8 @@ int main() {
     return 0; // Exit the program
 }
 
+//----------Functions Section------------
+
 // The function checks if a given char array string is a palindrome or not and returns the result
 int checkIfPalindrome(const char givenString[], unsigned int length) {
     unsigned int endOfString = length - 1; // define the end index of string by length removing the end of string
