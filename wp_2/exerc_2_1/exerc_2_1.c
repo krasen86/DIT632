@@ -22,29 +22,12 @@ Demonstration code: xxxx TODO replace with code from TA
 /* This program reads a string of maximum of 20 characters and creates a copy of that string using a custom method (loop) and a library method.
  * The result of both copies is printed to the screen. Optionally the user may use a file instead of inputting the sting manually. */
 
-// The function copies the string by using the standard library function strcpy and pointers to the strings
-void copyString(char* initialString, char* copiedString) {
-    strcpy(copiedString, initialString); // call standard library function to copy the strings from the pointer to the array
-}
-// The function copies the string by using a loop
-void copyStringCustom(const char* initialString, char* copiedString) {
-    int i; // index used to iterate the array
-    unsigned int lengthOfString = strlen(initialString);
-    for (i = 0; i < lengthOfString; i++) {// iterate until end of the string char-array is reached
-        copiedString[i] = initialString[i]; // copy elements in array
-    }
-    copiedString[lengthOfString] = END_OF_STRING; // set final string char to 0
-}
-// The function is used to handle exit programme when empty string or file is present, returns 0 since it's expected behavior
-void exitProgramme() {
-    printf(EMPTY_STRING_MESSAGE); // Print error message and processed to exit
-    exit(0); // Exit programme
-}
-// Function used to free memory for char pointer
-void freeMemoryChar (char* pointer){
-    free(pointer); // Free memory
-    pointer = NULL; // Nullify the pointer
-}
+//Function declaration
+void copyString(char* initialString, char* copiedString); // Used to copy strings from one pointer to another
+void copyStringCustom(const char* initialString, char* copiedString); // Used to copy strings from one pointer to another whit loop
+void exitProgramme(); // function to exit programme
+void freeMemoryChar (char* pointer); // used to free memory of a given pointer
+
 int main() {
     // Variable declarations
     char initialString[MAX_STRING_LENGTH]; // stores read string in array
@@ -72,4 +55,30 @@ int main() {
     printf(RESULT_STRING_USING_CUSTOM, initialString, copiedString); // Print result
     freeMemoryChar(copiedString); // call function to free memory
     return 0; // Exit the program
+}
+
+// --------------Function section---------------
+
+// The function copies the string by using the standard library function strcpy and pointers to the strings
+void copyString(char* initialString, char* copiedString) {
+    strcpy(copiedString, initialString); // call standard library function to copy the strings from the pointer to the array
+}
+// The function copies the string by using a loop
+void copyStringCustom(const char* initialString, char* copiedString) {
+    int i; // index used to iterate the array
+    unsigned int lengthOfString = strlen(initialString);
+    for (i = 0; i < lengthOfString; i++) {// iterate until end of the string char-array is reached
+        copiedString[i] = initialString[i]; // copy elements in array
+    }
+    copiedString[lengthOfString] = END_OF_STRING; // set final string char to 0
+}
+// The function is used to handle exit programme when empty string or file is present, returns 0 since it's expected behavior
+void exitProgramme() {
+    printf(EMPTY_STRING_MESSAGE); // Print error message and processed to exit
+    exit(0); // Exit programme
+}
+// Function used to free memory for char pointer
+void freeMemoryChar (char* pointer) {
+    free(pointer); // Free memory
+    pointer = NULL; // Nullify the pointer
 }

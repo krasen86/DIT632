@@ -41,6 +41,9 @@ int main() {
     printArray(numbersArray);   // Call function to display the elements in the array
     return 0; // Exit the program
 }
+
+// --------------Function section---------------
+
 // Function used to print the information about the array stored given a pointer
 void printSummary(int const numbersArray[]) {
     printf(STRING_ARRAY_LABEL_ADDRESS, numbersArray); // Prints the memory address
