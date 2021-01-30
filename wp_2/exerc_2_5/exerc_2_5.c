@@ -26,7 +26,7 @@ void draw_histogram(const int *freq );
 /* This program generates a random number array given a range of numbers and than checks for the repeated frequency of the numbers.
  * Once the frequency is counted it is displayed to the user.*/
 
-int main ( void){
+int main (){
     // Variable declarations
     int table[MAX]; // store random numbers
     int frequency[MAX_NUMBER]; // store frequency of the random numbers
