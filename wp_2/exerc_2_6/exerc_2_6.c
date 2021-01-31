@@ -22,8 +22,6 @@ Demonstration code: xxxx TODO replace with code from TA
 #define REMOVE_FAIL_QUEUE_IS_EMPTY "Requested to remove %d. Currently the queue is empty. Got %d instead " // message for failed removal from the queue
 #define CURRENT_QUEUE_STATE "Currently the queue is: " // message present queue state
 
-//TODO we may want to look into using struct for the queue
-
 /* ==================================== Main program section ====================================== */
 /* This program creates a simple queue by using an array with a given size and has initialize function where setting the default value for all elements in the queue.
  * There is an input function that inserts an int at the end of the queue and an output function that returns the first insert item and shifts all elements.
@@ -65,6 +63,7 @@ int main() {
 }
 
 //----------Functions Section------------
+
 // Function for testing used to print the queue
 void printQue(int *list) {
     printf(CURRENT_QUEUE_STATE); // display starting to print
