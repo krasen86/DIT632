@@ -46,7 +46,7 @@ int main() {
 
 // Function used to print the information about the array stored given a pointer
 void printSummary(int const numbersArray[]) {
-    printf(STRING_ARRAY_LABEL_ADDRESS, numbersArray); // Prints the memory address
+    printf(STRING_ARRAY_LABEL_ADDRESS, &numbersArray); // Prints the memory address
     printf(STRING_ARRAY_FIRST_INTEGER, *numbersArray); // Prints the first integer in the array
     printf(STRING_INTEGER_SIZE_OF_BYTES, sizeof(*numbersArray)); // Prints the size of the first integer in bytes
     printf(STRING_ARRAY_SIZE,ARRAY_MAX_LENGTH, getSizeBytes(numbersArray)); // Prints and calls function to calculate the byte size of the array since arrays are passed as pointers'
@@ -64,8 +64,8 @@ unsigned int getSizeBytes(int const numbersArray[]) {
 void populateArrayWithRandomNumbers(int numbersArray[]) {
     srand(time(0)); // Generate seed for the creation of random numbers based on time function
     for (int i = 0; i < ARRAY_MAX_LENGTH; i++) { // iterate in the array
-        *numbersArray = rand() % 100 + 1; // generate a new "random" number by using the rand() function, numbers is between 0-100
-        numbersArray++;
+        *numbersArray = rand() % 99 + 1; // generate a new "random" number by using the rand() function, numbers is between 1-99
+        numbersArray++; // increment to next pointer in the array
     }
 }
 // Function used to print the elements in the array in both int and double format

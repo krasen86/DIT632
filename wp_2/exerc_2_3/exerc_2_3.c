@@ -28,9 +28,9 @@ Demonstration code: xxxx TODO replace with code from TA
  * After comparison the equality result is printed in command line.*/
 
 // Function declaration
-int compareStrings(char *firstString, char *secondString); // compares strings using library function
-int compareStringsCustom(char *firstString, char *secondString); // compares using custom loop
-void printEquality(int stringAreEqual, char *firstString, char *secondString); // displays the result
+int compareStrings(const char *firstString,const char *secondString); // compares strings using library function
+int compareStringsCustom(const char *firstString,const char *secondString); // compares using custom loop
+void printEquality(int stringAreEqual, const char *firstString, const char *secondString); // displays the result
 void handleInvalidArg(int argc); // used to handle errors from arguments provided
 
 int main(int argc, char *argv[]) {
@@ -67,7 +67,7 @@ void handleInvalidArg(int argc) {
     }
 }
 // Function used to print if the 2 strings are equal or not based on the previous comparison
-void printEquality(int stringAreEqual, char *firstString, char *secondString) {
+void printEquality(int stringAreEqual,const char *firstString, const char *secondString) {
     if (stringAreEqual) {
         printf(STRINGS_ARE_EQUAL_MESSAGE,firstString, secondString); // Display equal message with the strings
     } else {
@@ -75,7 +75,7 @@ void printEquality(int stringAreEqual, char *firstString, char *secondString) {
     }
 }
 // Function to compare 2 strings(array of char) using a loop
-int compareStringsCustom(char *firstString, char *secondString) {
+int compareStringsCustom(const char *firstString,const char *secondString) {
     while (*firstString !='\0' || *secondString != '\0') { // loop while end of strings is not found
         if(*firstString != *secondString) { // compare the chars where the pointers are pointing too
             return FALSE; // strings are not equal
@@ -86,7 +86,7 @@ int compareStringsCustom(char *firstString, char *secondString) {
     return TRUE; // strings are equal
 }
 // Function to compare 2 strings(array of char) using strcmp library function
-int compareStrings(char *firstString, char *secondString) {
+int compareStrings(const char *firstString,const char *secondString) {
     if (strcmp(firstString, secondString) != 0) { // Call strcmp to compare strings and check if they are not equal
         return FALSE; // if not equal return false
     } else {

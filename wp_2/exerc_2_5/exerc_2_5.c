@@ -40,10 +40,10 @@ int main (){
 //----------Functions Section------------
 
 // Function for generating random numbers and adding them to the table array
-void create_random( int *tab ) {
+void create_random(int *tab ) {
     srand(time(0)); // Generate seed for the creation of random numbers based on time function
     for (int i = 0; i < MAX; i++) { // iterate in the array
-        *tab = rand() % MAX_NUMBER + 1; // generate a new "random" number by using the rand() function, numbers is between 0 and MAX_NUMBER
+        *tab = rand() % (MAX_NUMBER+1); // generate a new "random" number by using the rand() function, numbers is between 0 and MAX_NUMBER
         tab++; // increment the pointer
     }
 }
@@ -67,7 +67,7 @@ void count_frequency(const int *tab, int *freq ){
 void draw_histogram(const int *freq) {
     int i = 0; // index
     int frequency = 0; // frequency count
-    for (i = 0; i < MAX_NUMBER; ++i) { // iterate over the possible numbers
+    for (i = 0; i <= MAX_NUMBER; ++i) { // iterate over the possible numbers
         if(*freq > 0) // if the corresponding frequency array position contains positive value
         {
             printf("%d ", i); // display the number associated with the value

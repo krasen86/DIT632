@@ -18,8 +18,8 @@ Demonstration code: xxxx TODO replace with code from TA
 // For testing
 #define INSERT_SUCCESSFUL "Insert %d in the queue. " // message to confirm insert to queue
 #define INSERT_FAIL_QUEUE_IS_FULL "Requested to insert %d. Currently the queue is full. " // message for failed insertion in the queue
-#define REMOVE_ITEM_SUCCESSFUL "Requested to remove %d. Removed %d from the queue. " // message to confirm removal from queue
-#define REMOVE_FAIL_QUEUE_IS_EMPTY "Requested to remove %d. Currently the queue is empty. Got %d instead " // message for failed removal from the queue
+#define REMOVE_ITEM_SUCCESSFUL "Removed %d from the queue. " // message to confirm removal from queue
+#define REMOVE_FAIL_QUEUE_IS_EMPTY "Currently the queue is empty. Got %d instead " // message for failed removal from the queue
 #define CURRENT_QUEUE_STATE "Currently the queue is: " // message present queue state
 
 /* ==================================== Main program section ====================================== */
@@ -53,9 +53,9 @@ int main() {
     for (int i = 1; i <= 6; i++) {
         removedNumber = output(items, MAX_SIZE_QUEUE); // remove the first number from the queue, if the return is 0 the queue is empty
         if (removedNumber == 0) {
-            printf(REMOVE_FAIL_QUEUE_IS_EMPTY, i, removedNumber); // print fail message
+            printf(REMOVE_FAIL_QUEUE_IS_EMPTY, removedNumber); // print fail message
         } else {
-            printf(REMOVE_ITEM_SUCCESSFUL, i, removedNumber); // print success message
+            printf(REMOVE_ITEM_SUCCESSFUL, removedNumber); // print success message
             printQue(items); // call function to print queue
         }
     }
@@ -97,7 +97,7 @@ int input(int *list, int number, int max) {
 int output(int *list, int max) {
     int i = 0; // use for index
     if (*list == INITIAL_ITEM_VALUE) { // if the first item is empty the queue is empty
-        return FALSE; // return 0
+        return 0; // return 0 when queue is emtpy
     }
     int firstNumber = *list; // save the first value from the queue
     for (i = 0; i < max-1; i++) { // iterate over the queue
