@@ -18,7 +18,7 @@ Demonstration code: xxxx TODO replace with code from TA
 #define SIZE_USER_INPUT 64
 #define CORRECT_NUMBER_MESSAGE "You entered a valid personal number.\n"
 #define WRONG_NUMBER_MESSAGE "You entered an invalid personal number.\n"
-#define WRONG_PARAMETERS_MESSAGE "Please enter a person number in format <yymmddxxxx>\n"
+#define WRONG_PARAMETERS_MESSAGE "The number you entered was not in format <yymmddxxxx>\n"
 #define PROMP_INPUT_MESSAGE "Enter a personal number in format <yymmddxxxx>. To exit the program enter <q>\n"
 #define EXIT_MESSAGE "Thank you for using the application.\n"
 #define EXIT_CHAR 'q'
@@ -38,20 +38,20 @@ Demonstration code: xxxx TODO replace with code from TA
 
 // Function declaration
 
-void readPersonalNumber( char *person);
+int readPersonalNumber( char *person);
 int controlDigit( const char * persnr);
 int controlDate(char *person);
 int inputValidation(char *input);
 int checkLeapYear(int year);
+int castToInt(char c);
 
-int charToInt(const char i);
 
 int main() {
     // Variable declarations
     char personalNumber[SIZE_PERSONAL_NUMBER];
-    readPersonalNumber(personalNumber);
-
-    while (TRUE) {
+    int keepReading = FALSE;
+    keepReading = readPersonalNumber(personalNumber);
+    while (keepReading) {
         if(controlDate(personalNumber)) {
             if (controlDigit(personalNumber)) {
                 printf(CORRECT_NUMBER_MESSAGE);
@@ -61,25 +61,28 @@ int main() {
         } else {
             printf(WRONG_NUMBER_MESSAGE);
         }
-        readPersonalNumber(personalNumber);
+        keepReading = readPersonalNumber(personalNumber);
     }
+    printf(EXIT_MESSAGE); // Print goodbye message
     return 0; // Exit the program
 }
 
 //----------Functions Section------------
 
-void readPersonalNumber(char *person) {
+int readPersonalNumber(char *person) {
     printf(PROMP_INPUT_MESSAGE);
     char input[SIZE_USER_INPUT];
     fgets(input,SIZE_USER_INPUT, stdin);
     if(input[0] == EXIT_CHAR && strlen(input) == 2 ){
-        printf(EXIT_MESSAGE);
-        exit(0);
+        return FALSE;
     }else if(strlen(input) != SIZE_PERSONAL_NUMBER + 1 || !inputValidation(input)) {
         printf(WRONG_PARAMETERS_MESSAGE);
+        readPersonalNumber(person);
     }else {
         strcpy(person, input);
+        return TRUE;
     }
+    return FALSE;
 }
 
 int inputValidation(char *input) {
@@ -150,7 +153,7 @@ int controlDigit(const char *persnr) {
 
     for (i = 0; i < SIZE_PERSONAL_NUMBER - 1; i++){
         if (i % 2 == 0) {
-            temp1 = charToInt(persnr[i]) * 2;
+            temp1 = castToInt(persnr[i]) * 2;
             if (temp1 > 9){
                 temp2 = (temp1 / 10) % 10;
                 temp3 = temp1 % 10;
@@ -159,23 +162,22 @@ int controlDigit(const char *persnr) {
                 sum += temp1;
             }
         } else {
-            sum += charToInt(persnr[i]);
+            sum += castToInt(persnr[i]);
         }
     }
 
-    if (((10 - (sum % 10)) % 10) == charToInt(persnr[SIZE_PERSONAL_NUMBER - 1])) {
+    if (((10 - (sum % 10)) % 10) == castToInt(persnr[SIZE_PERSONAL_NUMBER - 1])) {
         return TRUE;
     }
 
     return FALSE;
 }
 
-int charToInt(char c){
+int castToInt(char c) {
     int num = 0;
 
     //Substract '0' from entered char to get
     //corresponding digit
     num = c - '0';
-
     return num;
 }
