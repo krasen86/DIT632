@@ -24,6 +24,14 @@ Demonstration code: xxxx TODO replace with code from TA
 #define EXIT_CHAR 'q'
 #define TRUE 1      // Define true
 #define FALSE 0     // Define false
+#define JANUARY 1
+#define FEBRUARY 2
+#define MARCH 3
+#define MAY 5
+#define JULY 7
+#define AUGUST 8
+#define OCTOBER 10
+#define DECEMBER 12
 
 /* ==================================== Main program section ====================================== */
 /* This program ..... */
@@ -32,21 +40,26 @@ Demonstration code: xxxx TODO replace with code from TA
 
 void readPersonalNumber( char *person);
 int controlDigit( const char * persnr);
-void controlDate(char *person);
+int controlDate(char *person);
 int inputValidation(char *input);
+int checkLeapYear(int year);
+
+int charToInt(const char i);
 
 int main() {
     // Variable declarations
     char personalNumber[SIZE_PERSONAL_NUMBER];
     readPersonalNumber(personalNumber);
 
-    while (personalNumber[0] != EXIT_CHAR || strlen(personalNumber) != 2) {
+    while (TRUE) {
         if(controlDate(personalNumber)) {
             if (controlDigit(personalNumber)) {
                 printf(CORRECT_NUMBER_MESSAGE);
             } else {
                 printf(WRONG_NUMBER_MESSAGE);
             }
+        } else {
+            printf(WRONG_NUMBER_MESSAGE);
         }
         readPersonalNumber(personalNumber);
     }
@@ -67,7 +80,6 @@ void readPersonalNumber(char *person) {
     }else {
         strcpy(person, input);
     }
-
 }
 
 int inputValidation(char *input) {
@@ -82,10 +94,88 @@ int inputValidation(char *input) {
     return TRUE;
 }
 
-void controlDate(char *person) {
+int controlDate(char *person) {
 
+    int year, month, day;
+    long personalNumber;
+    char *pointer;
+
+    personalNumber = (long) strtol(person, &pointer, 10);
+
+    year = (int) (personalNumber / 100000000) % 100;
+    month = (int) (personalNumber / 1000000) % 100;
+    day = (int) (personalNumber / 10000) % 100;
+
+    if ((month > 0 && month <= 12)) {
+        if(month == JANUARY || month == MARCH ||month == MAY ||month == JULY || month == AUGUST || month == OCTOBER || month == DECEMBER) {
+            if (day > 0 && day <= 31) {
+                return TRUE;
+            }
+        } else {
+            if ( month == FEBRUARY) {
+                if (!checkLeapYear(year)) {
+                    if (day > 0 && day <= 28) {
+                        return TRUE;
+                    }
+                } else {
+                    if (day > 0 && day <= 29) {
+                        return TRUE;
+                    }
+                }
+            } else { // APRIL, JUNE, SEPTEMBER, NOVEMBER
+                if (day > 0 && day <= 30) {
+                    return TRUE;
+                }
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+int checkLeapYear(int year) {
+
+    if (((year % 4 == 0) && (year % 100!= 0)) || (year % 400 == 0)) {
+        return TRUE;
+    }
+
+    return 0;
 }
 
 int controlDigit(const char *persnr) {
-    return 0;
+    // 8112289874 6709199530
+    int i;
+    int sum = 0;
+    long temp1 = 0, temp2 = 0, temp3;
+
+    for (i = 0; i < SIZE_PERSONAL_NUMBER - 1; i++){
+        if (i % 2 == 0) {
+            temp1 = charToInt(persnr[i]) * 2;
+            if (temp1 > 9){
+                temp2 = (temp1 / 10) % 10;
+                temp3 = temp1 % 10;
+                sum += temp2 + temp3;
+            } else {
+                sum += temp1;
+            }
+        } else {
+            sum += charToInt(persnr[i]);
+        }
+    }
+
+    if (((10 - (sum % 10)) % 10) == charToInt(persnr[SIZE_PERSONAL_NUMBER - 1])) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+int charToInt(char c){
+    int num = 0;
+
+    //Substract '0' from entered char to get
+    //corresponding digit
+    num = c - '0';
+
+    return num;
 }
