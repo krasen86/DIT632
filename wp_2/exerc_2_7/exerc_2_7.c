@@ -43,7 +43,7 @@ int controlDigit( const char * persnr); // check if the last digit of a given nu
 int controlDate(char *person); // used to check if the date is valid
 int inputValidationInteger(char *input); // checks if the input was integer numbers
 int checkLeapYear(int year); // check if a given year is leap
-int castToInt(char c); // cast a char to integer
+int getIntegerValue(char c); // convert a char to integer
 
 
 int main() {
@@ -159,7 +159,7 @@ int controlDigit(const char *persnr) {
 
     for (i = 0; i < SIZE_PERSONAL_NUMBER - 1; i++){
         if (i % 2 == 0) {
-            sumOfNumber = castToInt(persnr[i]) * 2;
+            sumOfNumber = getIntegerValue(persnr[i]) * 2;
             if (sumOfNumber > 9){
                 firstDigitOfTheSumOfNumber = (sumOfNumber / 10) % 10;
                 secondDigitOfTheSumOfNumber = sumOfNumber % 10;
@@ -168,18 +168,19 @@ int controlDigit(const char *persnr) {
                 totalSum += (sumOfNumber * 1);
             }
         } else {
-            totalSum += castToInt(persnr[i]);
+            totalSum += getIntegerValue(persnr[i]);
         }
     }
 
-    if (((10 - (totalSum % 10)) % 10) == castToInt(persnr[SIZE_PERSONAL_NUMBER - 1])) {
+    if (((10 - (totalSum % 10)) % 10) == getIntegerValue(persnr[SIZE_PERSONAL_NUMBER - 1])) {
         return TRUE;
     }
 
     return FALSE;
 }
 
-int castToInt(char c) {
+// Function for converting a given char to integer and returning the int
+int getIntegerValue(char c) {
     int num = 0; // define the int to be return
     num = c - '0'; // subtract '0' from entered char to get the corresponding integer
     return num; // return the integer
