@@ -22,6 +22,12 @@ Demonstration code: xxxx TODO replace with code from TA
 #define EXIT_MESSAGE "Exiting the Nim game...\n"
 #define LOWER_INVALID_INPUT 0 // Lower integer threshold for an invalid input
 #define UPPER_INVALID_INPUT 4 // Upper integer threshold for an invalid input
+#define RANDOM_NUMBER_THRESHOLD 4
+#define COMPUTER_VICTORY "Computer won the game!\n"
+#define HUMAN_VICTORY "You have won the game!\n"
+#define PLAY_AGAIN "Would you like to play again? y/n\n"
+#define RESPOND_YES 1
+#define RESPOND_NO 0
 
 const int HUMAN = 0;
 const int COMPUTER = 1;
@@ -95,36 +101,35 @@ int main()
 
     printf("Welcome to Nim game...");
 
-
-
-    pile = MAX_COINS;		/* Set start values (= init) */
-    player = HUMAN;
-
     /*
      *  Program main loop
      */
-    while( true ) {
+    do {
+        pile = MAX_COINS;		/* Set start values (= init) */
+        player = HUMAN;
+        while (true) {
 
-        printf("There are %d  coins in the pile\n", pile );
+            printf("There are %d  coins in the pile\n", pile);
 
-        if( player == HUMAN ){
-            n_coins = human_choice(pile);
-        }else{
-            n_coins = computer_choice(pile);
-            printf("- I took %d\n", n_coins);
+            if (player == HUMAN) {
+                n_coins = human_choice(pile);
+            } else {
+                n_coins = computer_choice(pile);
+                printf("- I took %d\n", n_coins);
+            }
+            pile -= n_coins;
+            player = toggle(player);
+
+            if (pile <= 1) {
+                break;
+            }
         }
-        pile -= n_coins;
-        player = toggle( player );
-
-        if( pile <= 1 ){
-            break;
-        }
-    }
+        write_winner( player );
+    } while (play_again());
     /*
      * end main loop
      */
 
-    write_winner( player );
 
 
     printf("Terminating...\n");
@@ -141,7 +146,11 @@ int main()
 
 void clear_stdin()
 {
-    while( getchar() != '\n');
+    char pointer;
+    pointer = fgetc(stdin);
+    if(pointer != EOF) {
+        while (getchar() != '\n');
+    }
 }
 
 int human_choice(int pile)
@@ -151,6 +160,7 @@ int human_choice(int pile)
     do {
         printf(READ_HUMAN_CHOICE);
         fgets(input,SIZE_USER_INPUT, stdin); // read input from buffer and store it in the array
+
 
         if (sscanf(input, "%d", &inputNumber) == 1 && strlen(input) == 2) {   // Read integers from the stored character array
             if (inputNumber < pile) {
@@ -170,31 +180,52 @@ int human_choice(int pile)
                 printf(SENTENCE_WRONG_INPUT);
             }
         }
-
         clear_stdin();
     } while (true);
 }
 
 int computer_choice(int pile)
 {
-
-    return 0;
+    int computerChoice;
+    if(pile > RANDOM_NUMBER_THRESHOLD) {
+        computerChoice = rand() % 3 + 1;
+        return computerChoice;
+    }else {
+        return pile - 1;
+    }
 }
 
 void write_winner(int player )
 {
-
+    if(player == COMPUTER){
+        printf(HUMAN_VICTORY);
+    }else {
+        printf(COMPUTER_VICTORY);
+    }
 }
 
 int play_again()
 {
-
+    char input;
+    printf(PLAY_AGAIN);
+    input = getc(stdin);
+    if(input == 'y' || input == 'Y') {
+        clear_stdin();
+        return RESPOND_YES;
+    }else if(input == 'n' || input == 'N'){
+        clear_stdin();
+        return RESPOND_NO;
+    }else {
+        printf(SENTENCE_WRONG_INPUT);
+        clear_stdin();
+        play_again();
+    }
     return 0;
 }
 
 int toggle( int player )
 {
-
-    return 0;
+    player = !player;
+    return player;
 }
 
