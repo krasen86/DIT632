@@ -11,9 +11,17 @@ Demonstration code: xxxx TODO replace with code from TA
 #include<stdlib.h>
 #include<stdbool.h>
 #include<time.h>
+#include <string.h>
 
 
 #define MAX_COINS 13
+#define READ_HUMAN_CHOICE "Human, you're up:\n"
+#define SIZE_USER_INPUT 10
+#define SENTENCE_WRONG_INPUT "Not valid, please try again \n" // Invalid input prompt
+#define EXIT_CHAR 'q' // Character for exiting the program
+#define EXIT_MESSAGE "Exiting the Nim game...\n"
+#define LOWER_INVALID_INPUT 0 // Lower integer threshold for an invalid input
+#define UPPER_INVALID_INPUT 4 // Upper integer threshold for an invalid input
 
 const int HUMAN = 0;
 const int COMPUTER = 1;
@@ -22,7 +30,7 @@ const int COMPUTER = 1;
 
 /*
  * human_choice
- * Get human choce as an int from stdin.
+ * Get human choice as an int from stdin.
  * Clears stdin.
  * in: pile
  * out: int-value in range 1-3 (and also less than pile)
@@ -85,7 +93,7 @@ int main()
 
     srand( time(0) );		/* Setup random */
 
-    printf("V�lkommen till NIM by ...");
+    printf("Welcome to Nim game...");
 
 
 
@@ -97,13 +105,13 @@ int main()
      */
     while( true ) {
 
-        printf("Det ligger %d  mynt i h�gen\n", pile );
+        printf("There are %d  coins in the pile\n", pile );
 
         if( player == HUMAN ){
             n_coins = human_choice(pile);
         }else{
             n_coins = computer_choice(pile);
-            printf("- Jag tog %d\n", n_coins);
+            printf("- I took %d\n", n_coins);
         }
         pile -= n_coins;
         player = toggle( player );
@@ -119,7 +127,7 @@ int main()
     write_winner( player );
 
 
-    printf("Avslutat\n");
+    printf("Terminating...\n");
 
     return 0;
 }
@@ -133,15 +141,38 @@ int main()
 
 void clear_stdin()
 {
-    while( getchar() != '\n' ){
-        ;
-    }
+    while( getchar() != '\n');
 }
 
 int human_choice(int pile)
 {
+    char input[SIZE_USER_INPUT];
+    int inputNumber;
+    do {
+        printf(READ_HUMAN_CHOICE);
+        fgets(input,SIZE_USER_INPUT, stdin); // read input from buffer and store it in the array
 
-    return 0;
+        if (sscanf(input, "%d", &inputNumber) == 1 && strlen(input) == 2) {   // Read integers from the stored character array
+            if (inputNumber < pile) {
+                if (inputNumber > LOWER_INVALID_INPUT && inputNumber < UPPER_INVALID_INPUT) {
+                    return inputNumber;
+                } else {
+                    printf(SENTENCE_WRONG_INPUT);
+                }
+            } else {
+                printf(SENTENCE_WRONG_INPUT);
+            }
+        } else {
+            if (input[0] == EXIT_CHAR && strlen(input) == 2) {
+                printf(EXIT_MESSAGE);
+                exit(0);
+            } else {
+                printf(SENTENCE_WRONG_INPUT);
+            }
+        }
+
+        clear_stdin();
+    } while (true);
 }
 
 int computer_choice(int pile)
@@ -166,7 +197,4 @@ int toggle( int player )
 
     return 0;
 }
-//
-// Created by krasen on 2021-02-02.
-//
 
