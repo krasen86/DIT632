@@ -14,23 +14,27 @@ Demonstration code: xxxx TODO replace with code from TA
 #include <string.h>
 
 
-#define MAX_COINS 13
-#define READ_HUMAN_CHOICE "Human, you're up:\n"
-#define SIZE_USER_INPUT 10
+#define MAX_COINS 13 // Maximum number of coins in the pile
+#define READ_HUMAN_CHOICE "Human, you're up:\n" // String to be prompted to the user of entering a number
+#define SIZE_USER_INPUT 10 // Used to set the size of the array for the user's input
 #define SENTENCE_WRONG_INPUT "Not valid, please try again \n" // Invalid input prompt
 #define EXIT_CHAR 'q' // Character for exiting the program
-#define EXIT_MESSAGE "Exiting the Nim game...\n"
+#define EXIT_MESSAGE "Exiting the Nim game...\n" // String to be printed when exiting the game
 #define LOWER_INVALID_INPUT 0 // Lower integer threshold for an invalid input
 #define UPPER_INVALID_INPUT 4 // Upper integer threshold for an invalid input
-#define RANDOM_NUMBER_THRESHOLD 4
-#define COMPUTER_VICTORY "Computer won the game!\n"
-#define HUMAN_VICTORY "You have won the game!\n"
-#define PLAY_AGAIN "Would you like to play again? y/n\n"
-#define RESPOND_YES 1
-#define RESPOND_NO 0
+#define RANDOM_NUMBER_THRESHOLD 4 // The threshold used when creating a random number
+#define COMPUTER_VICTORY "Computer won the game!\n" // String to be printed when computer won the game
+#define HUMAN_VICTORY "You have won the game!\n" // String to be printed when the human won the game
+#define PLAY_AGAIN "Would you like to play again? y/n\n" // String for prompting the user whether they want to continue playing another round
+#define RESPOND_YES 1 // Returned value when the user wants to play another round
+#define RESPOND_NO 0 // Returned value when the user does not want to play another round
 
-const int HUMAN = 0;
-const int COMPUTER = 1;
+const int HUMAN = 0; // Constant number that defines the human player
+const int COMPUTER = 1; // Constant number that defines the computer
+
+/* ==================================== Main program section ====================================== */
+/* This is an implementation of the Nim game
+ * */
 
 /* ------------- IO --------------- */
 
@@ -130,8 +134,6 @@ int main()
      * end main loop
      */
 
-
-
     printf("Terminating...\n");
 
     return 0;
@@ -143,13 +145,9 @@ int main()
  *
  ******************************************************/
 
-
-void clear_stdin()
-{
-    char pointer;
-    pointer = fgetc(stdin);
-    if(pointer != EOF) {
-        while (getchar() != '\n');
+void clear_stdin() {
+    while( getchar() != '\n' ){
+        ;
     }
 }
 
@@ -161,7 +159,9 @@ int human_choice(int pile)
         printf(READ_HUMAN_CHOICE);
         fgets(input,SIZE_USER_INPUT, stdin); // read input from buffer and store it in the array
 
-
+        if (strlen(input) == (SIZE_USER_INPUT-1) && input[SIZE_USER_INPUT-1] == '\0' ){
+            clear_stdin();
+        }
         if (sscanf(input, "%d", &inputNumber) == 1 && strlen(input) == 2) {   // Read integers from the stored character array
             if (inputNumber < pile) {
                 if (inputNumber > LOWER_INVALID_INPUT && inputNumber < UPPER_INVALID_INPUT) {
@@ -180,7 +180,6 @@ int human_choice(int pile)
                 printf(SENTENCE_WRONG_INPUT);
             }
         }
-        clear_stdin();
     } while (true);
 }
 
@@ -228,4 +227,3 @@ int toggle( int player )
     player = !player;
     return player;
 }
-
