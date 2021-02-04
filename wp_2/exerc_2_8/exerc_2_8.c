@@ -14,7 +14,7 @@ Demonstration code: 5202
 #include <string.h>
 
 #define MAX_COINS 13 // Maximum number of coins in the pile
-#define READ_HUMAN_CHOICE "Human, you're up! Please enter a number between 1-3:\n" // String to be prompted to the user of entering a number
+#define READ_HUMAN_CHOICE "Human, you're up! Please enter a number between 1-3 but less then pile. Press <q> to exit:\n" // String to be prompted to the user of entering a number
 #define SIZE_USER_INPUT 10 // Used to set the size of the array for the user's input
 #define SENTENCE_WRONG_INPUT "Not valid, please try again \n" // Invalid input prompt
 #define EXIT_CHAR 'q' // Character for exiting the program
@@ -216,21 +216,27 @@ void write_winner(int player )
 int play_again()
 {
     // Variables declarations
-    char input; // store the user's input
-
+    char inputChar; // store the user's inputChar
+    char secondChar; // store second char to check for error
     printf(PLAY_AGAIN); // prompt the user with a message asking if they want to play again
-    input = getc(stdin); // read user's answer
-
-    if(input == 'y' || input == 'Y') { // covers the case that the user wants to play again
+    inputChar = getc(stdin); // read user's answer
+    if (inputChar == '\n') { // handle enter
+        printf(SENTENCE_WRONG_INPUT); // notify the user of invalid inputChar
+        return play_again(); // recursive call to prompt the user again for a valid inputChar
+    }
+    secondChar = getc(stdin); // read second char from buffer
+    if (secondChar && secondChar != '\n') { // if there is another char and that char is not a new line
+        printf(SENTENCE_WRONG_INPUT); // notify the user of invalid inputChar
         clear_stdin(); // call the method to clear the buffer
+        return play_again(); // recursive call to prompt the user again for a valid inputChar
+    }
+    if(inputChar == 'y' || inputChar == 'Y') { // covers the case that the user wants to play again
         return RESPOND_YES; // return user's response
-    }else if(input == 'n' || input == 'N'){ // covers the case that the user does not want to play again
-        clear_stdin(); // call the method to clear the buffer
+    }else if(inputChar == 'n' || inputChar == 'N'){ // covers the case that the user does not want to play again
         return RESPOND_NO; // return user's response
-    }else { // covers the case of invalid input entered by the user
-        printf(SENTENCE_WRONG_INPUT); // notify the user of invalid input
-        clear_stdin(); // call the method to clear the buffer
-        return play_again(); // recursive call to prompt the user again for a valid input
+    } else { // covers the case of invalid inputChar entered by the user
+        printf(SENTENCE_WRONG_INPUT); // notify the user of invalid inputChar
+        return play_again(); // recursive call to prompt the user again for a valid inputChar
     }
 }
 
