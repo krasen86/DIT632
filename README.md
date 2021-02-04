@@ -6,6 +6,8 @@
 
 ## Work package 2
 
+[Here](./wp_2/) you can find the descriptions for the second work package exercises.
+
 ## Work package 3
 
 ## Work package 4
