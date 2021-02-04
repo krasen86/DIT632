@@ -1,10 +1,10 @@
 /* ====================================
 File name: exerc_2_7.c (or cpp)
-Date: 2021-xx-xx TODO update date
+Date: 2021-02-04
 Group nr 14
 Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
-Member not present at demonstration time:
-Demonstration code: xxxx TODO replace with code from TA
+Member not present at demonstration time: N/A
+Demonstration code: 5202
 ====================================== */
 
 // Include section
@@ -51,10 +51,11 @@ int getIntegerValue(char c); // convert a char to integer
 
 
 int main() {
-    // Variable declarations
-    char personalNumber[SIZE_PERSONAL_NUMBER]; // used to store the p-number
+    // Variable declarations and initialization
+    char *personalNumber = calloc(SIZE_PERSONAL_NUMBER, sizeof(char)); // Create pointer and allocate memory to store the personal number
     int keepReading = FALSE; // boolean to control the main loop
     keepReading = readPersonalNumber(personalNumber); // call function to read user input
+
     // Main loop the loop runs while the user doesn't input "q" than the read method returns false and the loop is terminated
     while (keepReading) {
         if(controlDate(personalNumber)) { // call method to verify that the number contains a valid year-month-day in the first 6 positions
@@ -68,6 +69,7 @@ int main() {
         }
         keepReading = readPersonalNumber(personalNumber); // call function to continue reading personal number from user again
     }
+    free(personalNumber); // free the memory that has been allocated to storing the personal number
     printf(EXIT_MESSAGE); // Print goodbye message
     return 0; // Exit the program
 }
@@ -85,12 +87,11 @@ int readPersonalNumber(char *person) {
                                                                                             // call method to verify if it's integer input
                                                                                             // if the method returns false(not integers present in array)
         printf(WRONG_PARAMETERS_MESSAGE);                                                   // notify user for wrong input
-        readPersonalNumber(person);                                                         // use recursion to keep reading input
+        return readPersonalNumber(person);                                                  // use recursion to keep reading input
     }else { // Else input is right size and all integers
         strcpy(person, input); // copy input from the array into the main store array
         return TRUE; // return true to main - keeps the main loop running
     }
-    return FALSE; // if something is wrong return false to terminate the main loop
 }
 // Function to validate if a given string consists of only integers
 int inputValidationInteger(char *input) {
