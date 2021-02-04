@@ -42,7 +42,7 @@ Demonstration code: xxxx TODO replace with code from TA
 
 // Function declaration
 
-int readPersonalNumber( char *person); // Used to read user input
+int readPersnr(char *person); // Used to read user input
 int controlDigit( const char * persnr); // check if the last digit of a given number is valid
 int controlDate(char *person); // used to check if the date is valid
 int inputValidationInteger(char *input); // checks if the input was integer numbers
@@ -54,7 +54,7 @@ int main() {
     // Variable declarations
     char personalNumber[SIZE_PERSONAL_NUMBER]; // used to store the p-number
     int keepReading = FALSE; // boolean to control the main loop
-    keepReading = readPersonalNumber(personalNumber); // call function to read user input
+    keepReading = readPersnr(personalNumber); // call function to read user input
     // Main loop the loop runs while the user doesn't input "q" than the read method returns false and the loop is terminated
     while (keepReading) {
         if(controlDate(personalNumber)) { // call method to verify that the number contains a valid year-month-day in the first 6 positions
@@ -66,7 +66,7 @@ int main() {
         } else { // if not a valid date print wrong number message to user
             printf(WRONG_NUMBER_MESSAGE);
         }
-        keepReading = readPersonalNumber(personalNumber); // call function to continue reading personal number from user again
+        keepReading = readPersnr(personalNumber); // call function to continue reading personal number from user again
     }
     printf(EXIT_MESSAGE); // Print goodbye message
     return 0; // Exit the program
@@ -75,7 +75,7 @@ int main() {
 //----------Functions Section------------
 
 // function used to read user input. The function keeps asking for input until it doesn't get 10 integer numbers
-int readPersonalNumber(char *person) {
+int readPersnr(char *person) {
     printf(PROMP_INPUT_MESSAGE); // ask user for input
     char input[SIZE_USER_INPUT]; // store input
     fgets(input,SIZE_USER_INPUT, stdin); // read input from buffer and store it in the array
@@ -85,7 +85,7 @@ int readPersonalNumber(char *person) {
                                                                                             // call method to verify if it's integer input
                                                                                             // if the method returns false(not integers present in array)
         printf(WRONG_PARAMETERS_MESSAGE);                                                   // notify user for wrong input
-        readPersonalNumber(person);                                                         // use recursion to keep reading input
+        readPersnr(person);                                                         // use recursion to keep reading input
     }else { // Else input is right size and all integers
         strcpy(person, input); // copy input from the array into the main store array
         return TRUE; // return true to main - keeps the main loop running
