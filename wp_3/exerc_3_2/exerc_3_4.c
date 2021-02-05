@@ -96,7 +96,7 @@ PERSON input_record(void) {
 
 void append_file(PERSON *inrecord) {
     FILE *file;
-    file = fopen("person.bin","a");
+    file = fopen("person.bin","ab");
     if (file == NULL) {
         printf("Error\n");
         return;
