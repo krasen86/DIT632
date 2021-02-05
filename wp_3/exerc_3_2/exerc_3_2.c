@@ -29,7 +29,7 @@ Demonstration code: xxxx TODO replace with code from TA
 #define START_SORT_MESSAGE "Sorting the array list\n" // string to display when the sort method is called
 
 /* ==================================== Main program section ====================================== */
-/* This program .....
+/* This program TODO.....
 */
 // Function declaration
 int search_number( int number, int tab[], int size);
