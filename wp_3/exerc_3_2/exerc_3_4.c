@@ -37,6 +37,7 @@ Demonstration code: xxxx TODO replace with code from TA
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 // Define section
 #define LENGTH_NAME 20
 #define LENGTH_PERSONAL_NUMBER 13 // yyyymmddnnnc
@@ -59,27 +60,40 @@ void write_new_file( PERSON *inrecord); //Creats a file and write a first record
 void printfile(void); // print out all persons in the file
 void search_by_firstname( char *name);// print out person if in list
 void append_file(PERSON *inrecord);// appends a new person to the file
-
-
-
-
-int main( void){
+char *getUserInput();
+char *getInputPersonalNumber();
+int inputValidationInteger(char *input);
+int main(void){
     // Variable declarations
-    PERSON *person;
-    person = malloc(sizeof(PERSON));
-    strcpy(person -> firstName, "Krasen");
-    strcpy(person -> lastName, "Parvanov");
-    strcpy(person -> pers_number, "New");
-    write_new_file(person);
-    strcpy(person -> firstName, "John");
-    strcpy(person -> lastName, "John");
-    strcpy(person -> pers_number, "New");
-    append_file(person);
+    PERSON person;
+    PERSON personToAppend;
+    person = input_record();
+    write_new_file(&person);
+    personToAppend = input_record();
+    append_file(&personToAppend);
     printfile();
     char name[7] = {"Roy"};
-    search_by_firstname(name);
+    printf("Please enter a namen to search: ");
+    char input[100]; // store input
+    search_by_firstname(fgets(input,100, stdin));
     return(0);
 }
+
+PERSON input_record(void) {
+    PERSON person;
+    char input[100]; // store input
+    printf("Please enter your first name: ");
+    fgets(input,100, stdin); // read input from buffer and store it in the array
+    strcpy(person.firstName, input);
+    printf("Please enter your last name: ");
+    fgets(input,100, stdin); // read input from buffer and store it in the array
+    strcpy(person.lastName, input);
+    printf("Please enter your personal number (yyyymmddnnnn): ");
+    fgets(input,100, stdin); // read input from buffer and store it in the array
+    strcpy(person.pers_number, input);
+    return person;
+}
+
 void append_file(PERSON *inrecord) {
     FILE *file;
     file = fopen("person.bin","a");
