@@ -79,7 +79,7 @@ const char write[] = "wb";
 /* ==================================== Main program section ====================================== */
 /* This program TODO..... */
 
-
+// TODO... Add check for personal number format, Add comments and Check with TA if we can change methods names and parameters from skeleton code.
 
 // Function declaration
 PERSON input_record(void); // Reads in a person record.
@@ -96,6 +96,7 @@ void searchByName();
 void searchByLastName(char *name);
 char *getUserInput();
 void exitProgramme();
+void writeToFile(PERSON *inrecord,const char *mode);
 
 int main(void){
     // Variable declarations
