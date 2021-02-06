@@ -33,15 +33,31 @@ Demonstration code: xxxx TODO replace with code from TA
 ====================================== */
 
 // Include section
-
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+
+
 // Define section
 #define LENGTH_NAME 20
 #define LENGTH_PERSONAL_NUMBER 13 // yyyymmddnnnc
 #define TRUE 1
+#define FALSE 0
+#define FILE_NAME "person.bin"
+#define FIRST_MENU_CHOICE "1 Create a new and delete the old file.\n"
+#define SECOND_MENU_CHOICE "2 Add a new person to the file.\n"
+#define THIRD_MENU_CHOICE "3 Search for a person in the file.\n"
+#define FOURTH_MENU_CHOICE "4 Print out all in the file.\n"
+#define FIFTH_MENU_CHOICE "5 Exit the program.\n"
+#define PROMPT_USER_CHOICE "Enter your choice: "
+#define MAX_LENGTH_USER_INPUT 100
+#define PROMPT_SEARCH_TYPE "Press 1 to search by first name OR Press 2 to search by last name\nEnter here: "
+#define PROMPT_INVALID_CHOICE "That was not a valid input.....\n"
+#define PROMPT_FIRST_NAME "Please enter first name: "
+#define PROMPT_LAST_NAME "Please enter last name: "
+
+
 // -----Typedefs -------
 typedef struct {
     char firstName[LENGTH_NAME];
@@ -60,23 +76,120 @@ void write_new_file( PERSON *inrecord); //Creats a file and write a first record
 void printfile(void); // print out all persons in the file
 void search_by_firstname( char *name);// print out person if in list
 void append_file(PERSON *inrecord);// appends a new person to the file
+void printMenu();
+int getUserChoice();
+void handleUserChoice(int userChoice);
+void createNewFile();
+void addNewPersonToFile();
+void searchByName();
+void searchByLastName(char *name);
 char *getUserInput();
-char *getInputPersonalNumber();
-int inputValidationInteger(char *input);
+
+
 int main(void){
     // Variable declarations
-    PERSON person;
-    PERSON personToAppend;
-    person = input_record();
-    write_new_file(&person);
-    personToAppend = input_record();
-    append_file(&personToAppend);
+    int userChoice = 0;
+    while (TRUE) {
+        printMenu();
+        userChoice = getUserChoice();
+        handleUserChoice(userChoice);
+    }
+
     printfile();
     char name[7] = {"Roy"};
     printf("Please enter a namen to search: ");
     char input[100]; // store input
     search_by_firstname(fgets(input,100, stdin));
     return(0);
+}
+
+void printMenu() {
+    printf(FIRST_MENU_CHOICE);
+    printf(SECOND_MENU_CHOICE);
+    printf(THIRD_MENU_CHOICE);
+    printf(FOURTH_MENU_CHOICE);
+    printf(FIFTH_MENU_CHOICE);
+}
+
+int getUserChoice() {
+    char input[MAX_LENGTH_USER_INPUT]; // store input
+    printf(PROMPT_USER_CHOICE);
+    fgets(input,MAX_LENGTH_USER_INPUT, stdin);
+    if (input[0] == '\n' || !isdigit(input[0] || strlen(input) > 2) ) {
+        return 0;
+    } else {
+        char *pointer;
+        return (int) strtol(input, &pointer,10);
+    }
+
+}
+void handleUserChoice(int userChoice) {
+    switch (userChoice) {
+        case 1:
+            createNewFile();
+            break;
+        case 2:
+            addNewPersonToFile();
+            break;
+        case 3:
+            searchByName();
+            break;
+        case 4:
+            printfile();
+            break;
+        case 5:
+
+            break;
+        default:
+            break;
+    }
+}
+
+void searchByName() {
+    int userChoice = 0;
+    printf(PROMPT_SEARCH_TYPE);
+    userChoice = getUserChoice();
+    if (userChoice == 1) {
+        printf(PROMPT_FIRST_NAME);
+        search_by_firstname(getUserInput());
+    } else if (userChoice == 2) {
+        printf(PROMPT_LAST_NAME);
+        searchByLastName(getUserInput());
+    } else {
+        printf(PROMPT_INVALID_CHOICE);
+        return;
+    }
+}
+
+char *getUserInput() {
+    char *input; // store input
+    input = calloc(MAX_LENGTH_USER_INPUT, sizeof(char));
+    int keepReading = FALSE;
+    do {
+        fgets(input,MAX_LENGTH_USER_INPUT, stdin); // read input from buffer and store it in the array
+        if (strlen(input) <=2 || input[0] == '\n') {
+            keepReading = TRUE;
+            printf(PROMPT_INVALID_CHOICE);
+        } else {
+            keepReading = FALSE;
+        }
+    } while (keepReading);
+    return input;
+}
+
+void createNewFile() {
+    PERSON dummyPerson = {
+            .firstName = "Test first name",
+            .lastName = "Test last name",
+            .pers_number = "1234567890123"
+    };
+    write_new_file(&dummyPerson);
+}
+
+void addNewPersonToFile() {
+    PERSON person;
+    person = input_record();
+    append_file(&person);
 }
 
 PERSON input_record(void) {
@@ -96,31 +209,35 @@ PERSON input_record(void) {
 
 void append_file(PERSON *inrecord) {
     FILE *file;
-    file = fopen("person.bin","ab");
+    file = fopen(FILE_NAME,"ab");
     if (file == NULL) {
         printf("Error\n");
         return;
     }
     fwrite(inrecord,sizeof(PERSON),1,file);
-    printf("Append\n");
+    printf("Append\n"); // TODO remove
+    free(inrecord);
     fclose(file);
 }
+
 void write_new_file(PERSON *inrecord) {
     FILE *file;
-    file = fopen("person.bin","wb");
+    file = fopen(FILE_NAME,"wb");
     if (file == NULL) {
         printf("Error\n");
         return;
     }
     fwrite(inrecord,sizeof(PERSON),1,file);
-    printf("Wrote\n");
+    printf("Wrote\n"); // TODO remove
+    free(inrecord);
     fclose(file);
 }
+
 void search_by_firstname( char *name) {
     FILE *file;
-    int personFound = 0;
+    int personFound = FALSE;
     int i;
-    file = fopen("person.bin","rb");
+    file = fopen(FILE_NAME,"rb");
     if (file == NULL) {
         printf("Error opening the file\n");
         return;
@@ -139,13 +256,14 @@ void search_by_firstname( char *name) {
     if (!personFound) {
         printf("Person with that name was not found.\n");
     }
+    free(name);
     fclose(file);
 }
 
 void printfile(void) {
 
     FILE *file;
-    file = fopen("person.bin","rb");
+    file = fopen(FILE_NAME,"rb");
     if (file == NULL) {
         printf("Error opening the file\n");
         return;
