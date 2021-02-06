@@ -52,11 +52,19 @@ Demonstration code: xxxx TODO replace with code from TA
 #define FIFTH_MENU_CHOICE "5 Exit the program.\n"
 #define PROMPT_USER_CHOICE "Enter your choice: "
 #define MAX_LENGTH_USER_INPUT 100
-#define PROMPT_SEARCH_TYPE "Press 1 to search by first name OR Press 2 to search by last name\nEnter here: "
+#define PROMPT_SEARCH_TYPE "Press 1 to search by first name OR Press 2 to search by last name\n"
 #define PROMPT_INVALID_CHOICE "That was not a valid input.....\n"
+#define TRY_AGAIN_MESSAGE "Try again: "
 #define PROMPT_FIRST_NAME "Please enter first name: "
 #define PROMPT_LAST_NAME "Please enter last name: "
-
+#define EXIT_MESSAGE "Thank you for using the application\n"
+#define PRINT_PERSON_DATA "Person: %s, %s, %s\n"
+#define PRINT_DUMMY_RECORD "Dummy record: %s, %s, %s\n"
+#define ERROR_OPENING_FILE "Error opening the file and/or file doesn't exists...\n"
+#define PERSON_NOT_FOUND_MESSAGE "Person with that name was not found.\n"
+#define PERSON_FOUND_MESSAGE "Result %d\nPerson found: %s, %s, %s\n"
+#define PROMPT_PERSONAL_NUMBER "Please enter your personal number in format <yyyymmddnnnc>: "
+#define ERROR_ALLOCATION "Memory allocation failed. Please try again\n"
 
 // -----Typedefs -------
 typedef struct {
@@ -65,6 +73,9 @@ typedef struct {
     char pers_number[LENGTH_PERSONAL_NUMBER];
 }PERSON;
 
+const char append[] = "ab";
+const char read[] = "rb";
+const char write[] = "wb";
 /* ==================================== Main program section ====================================== */
 /* This program TODO..... */
 
@@ -72,7 +83,7 @@ typedef struct {
 
 // Function declaration
 PERSON input_record(void); // Reads in a person record.
-void write_new_file( PERSON *inrecord); //Creats a file and write a first record
+void write_new_file( PERSON *inrecord); // Creates a file and write a first record
 void printfile(void); // print out all persons in the file
 void search_by_firstname( char *name);// print out person if in list
 void append_file(PERSON *inrecord);// appends a new person to the file
@@ -84,7 +95,7 @@ void addNewPersonToFile();
 void searchByName();
 void searchByLastName(char *name);
 char *getUserInput();
-
+void exitProgramme();
 
 int main(void){
     // Variable declarations
@@ -94,13 +105,6 @@ int main(void){
         userChoice = getUserChoice();
         handleUserChoice(userChoice);
     }
-
-    printfile();
-    char name[7] = {"Roy"};
-    printf("Please enter a namen to search: ");
-    char input[100]; // store input
-    search_by_firstname(fgets(input,100, stdin));
-    return(0);
 }
 
 void printMenu() {
@@ -115,7 +119,7 @@ int getUserChoice() {
     char input[MAX_LENGTH_USER_INPUT]; // store input
     printf(PROMPT_USER_CHOICE);
     fgets(input,MAX_LENGTH_USER_INPUT, stdin);
-    if (input[0] == '\n' || !isdigit(input[0] || strlen(input) > 2) ) {
+    if (input[0] == '\n' || !isdigit(input[0] ) || strlen(input) > 2 ) {
         return 0;
     } else {
         char *pointer;
@@ -138,13 +142,17 @@ void handleUserChoice(int userChoice) {
             printfile();
             break;
         case 5:
-
+            exitProgramme();
             break;
         default:
+            printf(PROMPT_INVALID_CHOICE);
             break;
     }
 }
-
+void exitProgramme() {
+    printf(EXIT_MESSAGE);
+    exit(0);
+}
 void searchByName() {
     int userChoice = 0;
     printf(PROMPT_SEARCH_TYPE);
@@ -164,13 +172,21 @@ void searchByName() {
 char *getUserInput() {
     char *input; // store input
     input = calloc(MAX_LENGTH_USER_INPUT, sizeof(char));
+    if (input == NULL) {
+        printf(ERROR_ALLOCATION);
+        exitProgramme();
+    }
     int keepReading = FALSE;
     do {
         fgets(input,MAX_LENGTH_USER_INPUT, stdin); // read input from buffer and store it in the array
         if (strlen(input) <=2 || input[0] == '\n') {
             keepReading = TRUE;
             printf(PROMPT_INVALID_CHOICE);
+            printf(TRY_AGAIN_MESSAGE);
         } else {
+            if (input[strlen(input)-1] == '\n' ) {
+                input[strlen(input)-1] = '\0';
+            }
             keepReading = FALSE;
         }
     } while (keepReading);
@@ -179,8 +195,8 @@ char *getUserInput() {
 
 void createNewFile() {
     PERSON dummyPerson = {
-            .firstName = "Test first name",
-            .lastName = "Test last name",
+            .firstName = "Dummy first name",
+            .lastName = "Dummy last name",
             .pers_number = "1234567890123"
     };
     write_new_file(&dummyPerson);
@@ -194,52 +210,47 @@ void addNewPersonToFile() {
 
 PERSON input_record(void) {
     PERSON person;
-    char input[100]; // store input
-    printf("Please enter your first name: ");
-    fgets(input,100, stdin); // read input from buffer and store it in the array
+    char *input;
+    printf(PROMPT_FIRST_NAME);
+    input = getUserInput();
     strcpy(person.firstName, input);
-    printf("Please enter your last name: ");
-    fgets(input,100, stdin); // read input from buffer and store it in the array
+    free(input);
+    printf(PROMPT_LAST_NAME);
+    input = getUserInput();
     strcpy(person.lastName, input);
-    printf("Please enter your personal number (yyyymmddnnnn): ");
-    fgets(input,100, stdin); // read input from buffer and store it in the array
+    free(input);
+    printf(PROMPT_PERSONAL_NUMBER);
+    input = getUserInput();
     strcpy(person.pers_number, input);
+    free(input);
     return person;
 }
-
-void append_file(PERSON *inrecord) {
+void writeToFile(PERSON *inrecord,const char *mode) {
     FILE *file;
-    file = fopen(FILE_NAME,"ab");
+    file = fopen(FILE_NAME,mode);
     if (file == NULL) {
-        printf("Error\n");
+        printf(ERROR_OPENING_FILE);
         return;
     }
     fwrite(inrecord,sizeof(PERSON),1,file);
-    printf("Append\n"); // TODO remove
-    free(inrecord);
     fclose(file);
+};
+
+void append_file(PERSON *inrecord) {
+    writeToFile(inrecord, append);
 }
 
 void write_new_file(PERSON *inrecord) {
-    FILE *file;
-    file = fopen(FILE_NAME,"wb");
-    if (file == NULL) {
-        printf("Error\n");
-        return;
-    }
-    fwrite(inrecord,sizeof(PERSON),1,file);
-    printf("Wrote\n"); // TODO remove
-    free(inrecord);
-    fclose(file);
+    writeToFile(inrecord, write);
 }
 
 void search_by_firstname( char *name) {
     FILE *file;
     int personFound = FALSE;
     int i;
-    file = fopen(FILE_NAME,"rb");
+    file = fopen(FILE_NAME,read);
     if (file == NULL) {
-        printf("Error opening the file\n");
+        printf(ERROR_OPENING_FILE);
         return;
     }
     PERSON person;
@@ -249,32 +260,65 @@ void search_by_firstname( char *name) {
             break;
         }
         if (strcmp(person.firstName, name) == 0){
-            printf("Result %d\nPerson found: %s, %s, %s\n", i, person.firstName, person.lastName, person.pers_number);
+            printf(PERSON_FOUND_MESSAGE, i++, person.firstName, person.lastName, person.pers_number);
             personFound = TRUE;
         }
     }
     if (!personFound) {
-        printf("Person with that name was not found.\n");
+        printf(PERSON_NOT_FOUND_MESSAGE);
+    }
+    fclose(file);
+    free(name);
+}
+
+void searchByLastName( char *name) {
+    FILE *file;
+    int personFound = FALSE;
+    int i;
+    file = fopen(FILE_NAME, read);
+    if (file == NULL) {
+        printf(ERROR_OPENING_FILE);
+
+        return;
+    }
+    PERSON person;
+    for (i = 1;; ) {
+        size_t n = fread(&person, sizeof(PERSON), 1, file);
+        if (n == 0) {
+            break;
+        }
+        if (strcmp(person.lastName, name) == 0) {
+            printf(PERSON_FOUND_MESSAGE, i++, person.firstName, person.lastName, person.pers_number);
+            personFound = TRUE;
+        }
+    }
+    if (!personFound) {
+        printf(PERSON_NOT_FOUND_MESSAGE);
     }
     free(name);
-    fclose(file);
 }
 
 void printfile(void) {
 
     FILE *file;
-    file = fopen(FILE_NAME,"rb");
+    int i;
+    file = fopen(FILE_NAME,read);
     if (file == NULL) {
-        printf("Error opening the file\n");
+        printf(ERROR_OPENING_FILE);
         return;
     }
     PERSON person;
-    while(TRUE) {
+    for(i = 1;;i++) {
         size_t n = fread(&person, sizeof(PERSON),1, file);
         if (n == 0) {
             break;
         }
-        printf("Person: %s, %s, %s\n", person.firstName, person.lastName, person.pers_number);
+        if (i == 1) {
+            printf(PRINT_DUMMY_RECORD, person.firstName, person.lastName, person.pers_number);
+        } else {
+            printf(PRINT_PERSON_DATA, person.firstName, person.lastName, person.pers_number);
+        }
+
     }
     fclose(file);
 
