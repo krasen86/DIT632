@@ -11,7 +11,6 @@ Demonstration code: [<Ass code 1-4> <abc>]
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 // Define section
 #define X_AXIS 'x' // string to specify the "x" axis in the coordinate system
@@ -23,66 +22,68 @@ Demonstration code: [<Ass code 1-4> <abc>]
 #define EXIT_MESSAGE "Exiting the program...\n" // String to be printed when exiting the program
 #define LOWER_POSITION_BOUND 0 // Lower accepted value for the position in the coordinates system
 #define UPPER_POSITION_BOUND 99 // Upper accepted value for the position in the coordinates system
-#define VALUE_OUT_OF_BOUNDS "You entered a value that is invalid as for the coordinates. Please enter a value between 0-99 next time!\n"
-#define INVALID_COMMAND "You have entered an invalid command as for the robot to follow. Please enter a string that contains only \"m\" and/or \"t\" values for the command!\n"
-#define PROMPT_FOR_USER_DIRECTIONS "Please enter a command for the robot to follow! Type \"m\" for moving towards the current direction or \"t\" to turn 90 degrees clockwise!\n"
-#define INVALID_INPUT_EMPTY_LINE "A simple [enter] is not a valid input! Please try again!\n"
-#define MOVE_FORWARD 'm'
-#define TURN_90_DEGREES_CLOCKWISE 't'
-#define PROMPT_FOR_ANOTHER_TEST_CASE "\nDo you want to execute another test case? (Y/N)\n"
-#define PRINT_INITIAL_ROBOT_COORDINATES "\nInitial position of the robot:\nX: %d, Y: %d, Direction: %s\n"
-#define PRINT_FINAL_ROBOT_COORDINATES "Final position after receiving the command \"%s\":\nX: %d, Y: %d, Direction: %s\n"
-#define PRINT_BLOCK_SPACING "\n=====================================================\n"
-#define TRUE 1
-#define FALSE 0
+#define VALUE_OUT_OF_BOUNDS "You entered a value that is invalid as for the coordinates. Please enter a value between 0-99 next time!\n" // String to notify the user that they have entered an out of bounds values
+#define INVALID_COMMAND "You have entered an invalid command as for the robot to follow. Please enter a string that contains only \"m\" and/or \"t\" values for the command!\n" // String to notify the user about an incorrect input command
+#define PROMPT_FOR_USER_DIRECTIONS "Please enter a command for the robot to follow! Type \"m\" for moving towards the current direction or \"t\" to turn 90 degrees clockwise!\n" // String to prompt for the user's test command to move the robot
+#define INVALID_INPUT_EMPTY_LINE "A simple [enter] is not a valid input! Please try again!\n" // String to notify the user that an empty line is not accepted
+#define MOVE_FORWARD 'm' // Accepted value for the robot to move forward
+#define TURN_90_DEGREES_CLOCKWISE 't' //  Accepted value for the robot to turn clockwise for 90 degrees
+#define PROMPT_FOR_ANOTHER_TEST_CASE "\nDo you want to execute another test case? (Y/N)\n" // String to ask the user about
+#define PRINT_INITIAL_ROBOT_COORDINATES "\nInitial position of the robot:\nX: %d, Y: %d, Direction: %s\n" // String to notify the user about the robot's initial position, before running the test case
+#define PRINT_FINAL_ROBOT_COORDINATES "Final position after receiving the command \"%s\":\nX: %d, Y: %d, Direction: %s\n" // String to notify the user about the robot's final position, after executing the test case
+#define PRINT_BLOCK_SPACING "\n=====================================================\n" // String to be printed for formatting reasons
+#define FALSE 0 // define boolean false
+#define TRUE 1 // define boolean true
 
 /* ==================================== Main program section ====================================== */
 /*
  *
  */
 
-enum DIRECTION {North , East, South, West};
+enum DIRECTION {North , East, South, West}; // Declaration of enum for the robot's directions
 
+// Declaration of the robot struct, with the corresponding coordinates for the X and Y position of the robot, as well as its direction
 typedef struct{
     int positionX;
     int positionY;
     enum DIRECTION direction;
 }ROBOT;
 
-ROBOT move(ROBOT robot);
-ROBOT turn(ROBOT robot);
-int getPosition(char axis);
-char *getTestCaseDirections();
-ROBOT processTestCase(const char *testCaseString, ROBOT robot);
-int runAnotherTestCase();
-void clear_stdin();
-char *checkDirection(int intDirectionRepresentation);
+ROBOT move(ROBOT robot); // make the robot move forward
+ROBOT turn(ROBOT robot); // make the robot turn clockwise
+int readPosition(char axis); // read the position for an axis from the user
+char *readTestCaseDirections(); // read the test case command which specifies the changes of the robot's direction from the user
+ROBOT processTestCase(const char *testCaseString, ROBOT robot); // process the entered string which is responsible to alter the robot's direction
+int runAnotherTestCase(); // prompt the user for running the program for executing another test case
+void clear_stdin(); // Function to clear the stdin buffer
+char *checkDirection(int intDirectionRepresentation); // correlate the enum's direction representation to the corresponding direction string, i.e.: 0 == North, and return the string
 
 int main() {
     // Variable declarations
-    ROBOT robot;
-    robot.direction = North;
+    ROBOT robot; //
     char *testCaseString = calloc(SIZE_USER_INPUT,sizeof(char));
 
     do {
-        robot.positionX = getPosition(X_AXIS);
-        robot.positionY = getPosition(Y_AXIS);
+        robot.direction = North; // initialize the robot's direction and set it towards the North
+        robot.positionX = readPosition(X_AXIS); // read robot's X axis value from the user
+        robot.positionY = readPosition(Y_AXIS); // read robot's Y axis value from the user
 
-        testCaseString = getTestCaseDirections();
+        testCaseString = readTestCaseDirections(); // read the instruction command string from the user and assign it to a variable
 
-        printf(PRINT_INITIAL_ROBOT_COORDINATES, robot.positionX, robot.positionY, checkDirection(robot.direction));
+        printf(PRINT_INITIAL_ROBOT_COORDINATES, robot.positionX, robot.positionY, checkDirection(robot.direction)); // print the initial position of the robot, based on the input from the user
 
-        robot = processTestCase(testCaseString, robot);
+        robot = processTestCase(testCaseString, robot); // call the function to process the test case string that was received by the user and update the robots final state
 
-        printf(PRINT_FINAL_ROBOT_COORDINATES, testCaseString, robot.positionX, robot.positionY, checkDirection(robot.direction));
+        printf(PRINT_FINAL_ROBOT_COORDINATES, testCaseString, robot.positionX, robot.positionY, checkDirection(robot.direction)); // print the final position of the robot, based on the processed received command from the user
 
-        printf(PRINT_BLOCK_SPACING);
-    } while (runAnotherTestCase());
+        printf(PRINT_BLOCK_SPACING); // print some spacing block in case of next command round
+    } while (runAnotherTestCase()); // iterate until the user does not want to continue inputting further test case commands to the robot
 
-    return 0;
+    return 0; // exit the program
 }
 
-int getPosition(char axis) {
+// Function to read the position from the user for a particular axis
+int readPosition(char axis) {
     // Variables declarations
     char *input = calloc(SIZE_USER_INPUT, sizeof(char)); // store the user's input
     int inputNumber; // store the integer representation of the input
@@ -92,16 +93,18 @@ int getPosition(char axis) {
     }
 
     do {
-        printf(PROMPT_USER_STARTING_POSITION, axis);
+        printf(PROMPT_USER_STARTING_POSITION, axis); // prompt the user for an input value for the particular axis
         fgets(input, SIZE_USER_INPUT, stdin); // read input from buffer
 
-        if (sscanf(input, "%d", &inputNumber) == 1 && strlen(input) <= 3) {
-            if (inputNumber >= LOWER_POSITION_BOUND && inputNumber <= UPPER_POSITION_BOUND) {
-                return inputNumber;
-            } else {
-                printf(VALUE_OUT_OF_BOUNDS);
+        if (sscanf(input, "%d", &inputNumber) == 1 && strlen(input) <= 3) { // Read integers from the stored character array
+                                                                                   // Check if the input contains an integer value
+                                                                                   // Check if the stored character array is not of size 3 (including \n)
+            if (inputNumber >= LOWER_POSITION_BOUND && inputNumber <= UPPER_POSITION_BOUND) { // check if the input number is within the accepted bounds
+                return inputNumber; // return the value to the user
+            } else { // case of the input being out of bounds
+                printf(VALUE_OUT_OF_BOUNDS); // notify the user for entering out of bounds number as input
             }
-        } else {
+        } else { // handle alphabetical input
             if (input[0] == EXIT_CHAR && strlen(input) == 2) { // check if the EXIT_CHAR has been entered
                 printf(EXIT_MESSAGE); // print the exit message
                 exit(0); // exit the program
@@ -112,87 +115,92 @@ int getPosition(char axis) {
     } while (TRUE); // keep prompting the user for input
 }
 
-char *getTestCaseDirections() {
+// Function to read the set of instructions from the user and return it as a string
+char *readTestCaseDirections() {
     // Variables declarations
-    char *input = calloc(SIZE_USER_INPUT,sizeof(char));
-    int i;
-    int validCommand;
+    char *input = calloc(SIZE_USER_INPUT,sizeof(char)); // Create pointer and allocate memory to store the input from the user
+    int i; // index for the loop
+    int validCommand; // variable to store whether the given command within the string the user has entered is valid or not
 
     do {
-        validCommand = TRUE;
-        printf(PROMPT_FOR_USER_DIRECTIONS);
+        validCommand = TRUE; // initialize the value of the variable and set it to true
+        printf(PROMPT_FOR_USER_DIRECTIONS); // prompt the user for an instruction set
         fgets(input, SIZE_USER_INPUT, stdin); // read input from buffer
 
-        if (input[0] == '\n') {
-            printf(INVALID_INPUT_EMPTY_LINE);
-            validCommand = FALSE;
-            continue;
+        if (input[0] == '\n') { // check if the input from the user is empty
+            printf(INVALID_INPUT_EMPTY_LINE); // notify the user for invalid input
+            validCommand = FALSE; // change the value of the validCommand to false since the given command was invalid
+            continue; // skip this iteration
         }
-        for (i = 0; i < strlen(input); i++) {
-            if (input[i] != '\n') {
-                if (input[i] != MOVE_FORWARD && input[i] != TURN_90_DEGREES_CLOCKWISE) {
-                    printf(INVALID_COMMAND);
-                    validCommand = FALSE;
-                    break;
+        for (i = 0; i < strlen(input); i++) { // iterate through the entered string
+            if (input[i] != '\n') { // check if the current character is not the new line char
+                if (input[i] != MOVE_FORWARD && input[i] != TURN_90_DEGREES_CLOCKWISE) { // check if the input does not equal either to the move forward instruction or to the turning one
+                    printf(INVALID_COMMAND); // notify the user that there was an invalid command found
+                    validCommand = FALSE; // alter the value of validCommand to false
+                    break; // exit the loop
                 }
             }
         }
-        if (validCommand == TRUE){
+        if (validCommand == TRUE){ // check if there was no invalid command found within the entered instruction set by the user
             input[strlen(input)-1] = '\0'; // remove the \n as the last element of the pointer array and insert the null character to represent the end of string
-            return input;
+            return input; // return the string as a valid instruction set for the robot
         }
-    } while (!validCommand);
+    } while (!validCommand); // keep iterating as long as there has been an invalid command/string found
 }
 
+// Function to process the entered instruction set by the user and alter the robot's coordinates accordingly
 ROBOT processTestCase(const char *testCaseString, ROBOT robot) {
-    int i;
+    int i; // index for the loop
 
-    for (i = 0; i < strlen(testCaseString); i++) {
-        if (testCaseString[i] == MOVE_FORWARD) {
-            robot = move(robot);
-        } else if (testCaseString[i] == TURN_90_DEGREES_CLOCKWISE) {
-            robot = turn(robot);
+    for (i = 0; i < strlen(testCaseString); i++) { // iterate through the characters of the instruction string
+        if (testCaseString[i] == MOVE_FORWARD) { // check if there was detected a "move forward" command
+            robot = move(robot); // call the function to move the robot forward and alter the robot's state
+        } else if (testCaseString[i] == TURN_90_DEGREES_CLOCKWISE) { // check if there was a "turn" command found
+            robot = turn(robot); // call the function to turn the robot clockwise and alter the robot's state
         }
     }
-    return robot;
+    return robot; // return the robot's state
 }
 
+// Function to make the robot move forward
 ROBOT move(ROBOT robot) {
-    switch (robot.direction) {
-        case North:
-            robot.positionY++;
+    switch (robot.direction) { // switch statement that handles the alteration in robot's position based on it's current direction
+        case North: // check if the current direction of the robot is set to North
+            robot.positionY++; // increment the value in the Y axis by 1, i.e. move forward towards the North
             break;
-        case East:
-            robot.positionX++;
+        case East: // check if the current direction of the robot is set to East
+            robot.positionX++; // increment the value in the X axis by 1, i.e. move forward towards the East
             break;
-        case South:
-            robot.positionY--;
+        case South: // check if the current direction of the robot is set to South
+            robot.positionY--; // decrement the value in the Y axis by 1, i.e. move forward towards the South
             break;
-        case West:
-            robot.positionX--;
+        case West: // check if the current direction of the robot is set to West
+            robot.positionX--; // decrement the value in the X axis by 1, i.e. move forward towards the West
             break;
     }
-    return robot;
+    return robot; // return the robot's state
 }
 
+// Function to make the robot turn clockwise 90 degrees, to a different orientation of the horizon
 ROBOT turn(ROBOT robot) {
-    switch (robot.direction) {
-        case North:
-            robot.direction = East;
+    switch (robot.direction) { // switch statement that handles the alteration in robot's direction based on it's current direction
+        case North: // check if the current direction of the robot is set to North
+            robot.direction = East; // change the direction of the robot to East (turn 90 degrees clockwise)
             break;
-        case East:
-            robot.direction = South;
+        case East: // check if the current direction of the robot is set to East
+            robot.direction = South; // change the direction of the robot to South (turn 90 degrees clockwise)
             break;
-        case South:
-            robot.direction = West;
+        case South: // check if the current direction of the robot is set to South
+            robot.direction = West; // change the direction of the robot to West (turn 90 degrees clockwise)
             break;
-        case West:
-            robot.direction = North;
+        case West: // check if the current direction of the robot is set to West
+            robot.direction = North; // change the direction of the robot to North (turn 90 degrees clockwise)
             break;
     }
-    return robot;
+    return robot; // return the robot's state
 }
 
+// Function to check if the user wants to input another instruction set
 int runAnotherTestCase() {
     // Variables declarations
     char input; // store the user's inputChar
@@ -225,27 +233,29 @@ int runAnotherTestCase() {
 
 }
 
+// Function to clear the stdin buffer
 void clear_stdin() {
     while( getchar() != '\n' ); // iterate and empty the buffer until the EOF character is found
 }
 
+// Function to correlate the integer representation of the robot's direction based on the enum's value its corresponding representation as cardinal points (i.e. North, East, South, West)
 char *checkDirection(int intDirectionRepresentation) {
-    char *direction;
+    char *direction; // pointer to store the char representation of the cardinal point of the robot's direction
 
-    switch (intDirectionRepresentation) {
-        case 0:
-            direction = "North";
+    switch (intDirectionRepresentation) { // switch statement that handles correlation check among the integer representation of the cardinal points
+        case 0: // check if the enum's direction value equals to 0, meaning it is being set to the North
+            direction = "North"; // assign the North string to the pointer
             break;
-        case 1:
-            direction = "East";
+        case 1: // check if the enum's direction value equals to 0, meaning it is being set to the East
+            direction = "East"; // assign the East string to the pointer
             break;
-        case 2:
-            direction = "South";
+        case 2: // check if the enum's direction value equals to 0, meaning it is being set to the South
+            direction = "South"; // assign the South string to the pointer
             break;
-        case 3:
-            direction = "West";
+        case 3: // check if the enum's direction value equals to 0, meaning it is being set to the West
+            direction = "West"; // assign the West string to the pointer
             break;
     }
 
-    return direction;
+    return direction; // return the direction's value that is based on the corresponding cardinal point
 }
