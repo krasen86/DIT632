@@ -13,7 +13,7 @@ typedef struct q{
     struct q *prev;
 } REGTYPE;
 
-// ##### Funcion declarations #####
+// ##### Function declarations #####
 REGTYPE* random_list(void);
 REGTYPE* add_first(REGTYPE* temp, int data);
 
@@ -25,6 +25,14 @@ int main(int argc, char *argv[]){
     head=random_list();
     akt_post=head;
 
+    while(akt_post != NULL){
+        printf("\n Post nr %d : %d" , nr++, akt_post->number);
+        akt_post = akt_post -> next;
+    }
+
+    head = add_first(head, 10);
+    akt_post = head;
+    nr = 0;
     while(akt_post != NULL){
         printf("\n Post nr %d : %d" , nr++, akt_post->number);
         akt_post = akt_post -> next;
@@ -42,29 +50,42 @@ int main(int argc, char *argv[]){
 
 REGTYPE* random_list(void){
     int nr, i;
-    REGTYPE *top, *old, *item;
-    item = (struct q*)malloc(sizeof(struct q));
-
-    printf("hey");
+    REGTYPE *top = NULL, *old, *item;
 
     for (i = 0; i < MAX; i++){
+        item = (struct q*)malloc(sizeof(struct q));
         nr = rand() % 100;
+        item -> number = nr;
         if(top == NULL){
             item -> prev = NULL;
             item -> next = NULL;
-            item -> number = nr;
             top = item;
         } else {
-            item -> number = nr;
-            item -> prev = NULL;
-            item -> next = top;
-            top -> prev = item;
-            top = item;
+            old = top;
+            while(old->next!=NULL){
+                old = old->next;
+            }
+            old -> next = item;
+            item -> prev = old;
+            item -> next = NULL;
         }
     }
     return(top);
 }
 
 REGTYPE* add_first(REGTYPE* temp, int data){
+    REGTYPE *item;
+    item = (struct q*)malloc(sizeof(struct q));
 
+    if(temp == NULL) {
+        temp -> number = data;
+        temp -> next = NULL;
+        temp -> prev = NULL;
+    }else {
+        item -> number = data;
+        item -> next = temp;
+        item -> prev = NULL;
+        temp = item;
+    }
+    return temp;
 }// Adds a record first i list and set the field tal to data
