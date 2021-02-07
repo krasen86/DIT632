@@ -9,7 +9,7 @@
 [Here](./wp_2/) you can find the descriptions for the second work package exercises.
 
 ## Work package 3
-[Here](./wp_3/) you can find the descriptions for the second work package exercises.
+[Here](./wp_3/) you can find the descriptions for the third work package exercises.
 
 ## Work package 4
 
