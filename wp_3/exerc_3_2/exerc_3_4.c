@@ -37,6 +37,7 @@ Demonstration code: xxxx TODO replace with code from TA
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 
 // Define section
@@ -65,6 +66,7 @@ Demonstration code: xxxx TODO replace with code from TA
 #define PERSON_FOUND_MESSAGE "Result %d\nPerson found: %s, %s, %s\n"
 #define PROMPT_PERSONAL_NUMBER "Please enter your personal number in format <yyyymmddnnnc>: "
 #define ERROR_ALLOCATION "Memory allocation failed. Please try again\n"
+#define NO_FILE_MESSAGE "There is currently no file. Please create a file first...\n"
 
 // -----Typedefs -------
 typedef struct {
@@ -73,9 +75,9 @@ typedef struct {
     char pers_number[LENGTH_PERSONAL_NUMBER];
 }PERSON;
 
-const char append[] = "ab";
-const char read[] = "rb";
-const char write[] = "wb";
+const char appendToFileMode[] = "ab";
+const char readFromFileMode[] = "rb";
+const char writeToFileMode[] = "wb";
 /* ==================================== Main program section ====================================== */
 /* This program TODO..... */
 
@@ -156,6 +158,10 @@ void exitProgramme() {
 }
 void searchByName() {
     int userChoice = 0;
+    if(access(FILE_NAME, F_OK )){
+        printf(NO_FILE_MESSAGE);
+        return;
+    }
     printf(PROMPT_SEARCH_TYPE);
     userChoice = getUserChoice();
     if (userChoice == 1) {
@@ -205,8 +211,12 @@ void createNewFile() {
 
 void addNewPersonToFile() {
     PERSON person;
-    person = input_record();
-    append_file(&person);
+    if(access(FILE_NAME, F_OK )){
+        printf(NO_FILE_MESSAGE);
+    }else{
+        person = input_record();
+        append_file(&person);
+    }
 }
 
 PERSON input_record(void) {
@@ -238,18 +248,18 @@ void writeToFile(PERSON *inrecord,const char *mode) {
 };
 
 void append_file(PERSON *inrecord) {
-    writeToFile(inrecord, append);
+    writeToFile(inrecord, appendToFileMode);
 }
 
 void write_new_file(PERSON *inrecord) {
-    writeToFile(inrecord, write);
+    writeToFile(inrecord, writeToFileMode);
 }
 
 void search_by_firstname( char *name) {
     FILE *file;
     int personFound = FALSE;
     int i;
-    file = fopen(FILE_NAME,read);
+    file = fopen(FILE_NAME, readFromFileMode);
     if (file == NULL) {
         printf(ERROR_OPENING_FILE);
         return;
@@ -276,7 +286,7 @@ void searchByLastName( char *name) {
     FILE *file;
     int personFound = FALSE;
     int i;
-    file = fopen(FILE_NAME, read);
+    file = fopen(FILE_NAME, readFromFileMode);
     if (file == NULL) {
         printf(ERROR_OPENING_FILE);
 
@@ -303,7 +313,7 @@ void printfile(void) {
 
     FILE *file;
     int i;
-    file = fopen(FILE_NAME,read);
+    file = fopen(FILE_NAME, readFromFileMode);
     if (file == NULL) {
         printf(ERROR_OPENING_FILE);
         return;
