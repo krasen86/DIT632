@@ -32,33 +32,33 @@ Demonstration code: xxxx TODO replace with code from TA
 /* This program TODO.....
 */
 // Function declaration
-int search_number( int number, int tab[], int size);
+int searchNumber(int number, const int *list, int size);
 int readNumber();
 int inputValidationInteger(char *input);
 void printList(int *list, int size);
-void sort (int number, int tab []);
+void sort (int number, int list []);
 
 int main() {
     // Variable declarations
-    int test [] = { 1,2,34,5,67,3,23,12,13,10}; // test numeric array
+    int testList [] = { 1,2,34,5,67,3,23,12,13,10}; // test numeric array
     int number; // store the number read from the user
     int position; // store position of the found number
     number = readNumber(); // call function to read user input
-    int size = sizeof(test)/sizeof(test[0]); // calculate and store the length of the test array
+    int size = sizeof(testList)/sizeof(testList[0]); // calculate and store the length of the test array
     if (number == EXIT_INPUT_READ) { // if the result of readNumber is exit char
         printf(EXIT_MESSAGE); // print exit message
         return 0; // exit the programme
     }
-    position = search_number(number, test, size); // call search method to get the position of a given number
+    position = searchNumber(number, testList, size); // call search method to get the position of a given number
     if (position == NOT_FOUND) { // if the number is not found, the return was NOT_FOUND
         printf(NOT_FOUND_MESSAGE); // notify the user that the number was not found
     } else { // if the number is present
         printf(FOUND_MESSAGE, position); // print the position of the number in the array
     }
-    printList(test, size); // call a function to print the integers in the list
+    printList(testList, size); // call a function to print the integers in the list
     printf(START_SORT_MESSAGE); // notify the start of sorting
-    sort(size, test); // call sort method
-    printList(test, size); // print the sorted array
+    sort(size, testList); // call sort method
+    printList(testList, size); // print the sorted array
     printf(EXIT_MESSAGE);  // print exit message
     return 0; // Exit the program
 }
@@ -97,17 +97,17 @@ int inputValidationInteger(char *input) {
 }
 // The function used to to check if a given number is in the array,
 // if the number is not in the array it returns NOT_FOUND else returns the position
-int search_number(int number, int tab[], int size){
+int searchNumber(int number, const int *list, int size){
     int i; // index for array
     for (i = 0; i < size; i++) { // traverse the array
-        if (tab[i] == number) { // if the number in the position is equal to the provided number
+        if (list[i] == number) { // if the number in the position is equal to the provided number
             return i; // return the position
         }
     }
     return NOT_FOUND; // if the loop has run and the number is not present return NOT_FOUND
 }
 // Sort the array if int given, number represents the size of the array
-void sort (int number, int tab []){
+void sort (int number, int list []){
     int i; // index for array
     int j; // index for inner loop
     int minPosition; // store the min number position
@@ -115,14 +115,14 @@ void sort (int number, int tab []){
     for (i = 0; i < number; i++) { // outer loop traverse the array
         minPosition = i; // set the index for the min number
         for (j = i + 1; j < number; j++) { // start inner loop for every single number
-            if (tab[j] < tab[minPosition]) { // check if the next number to the end is smaller to the set min position
+            if (list[j] < list[minPosition]) { // check if the next number to the end is smaller to the set min position
                 minPosition = j; // if smaller change the minPosition index to point to the smaller number
             }
         }
         if (i != minPosition) { // after the inner loop has run check if the current index is not the same as the minPosition (a smaller number has be found)
-            tempNumber = tab[i]; // store the number in the index for swapping
-            tab[i] = tab[minPosition]; // store the smaller number found in the current index
-            tab[minPosition] = tempNumber; // store the old value of index at the position where the old smaller number was (swap)
+            tempNumber = list[i]; // store the number in the index for swapping
+            list[i] = list[minPosition]; // store the smaller number found in the current index
+            list[minPosition] = tempNumber; // store the old value of index at the position where the old smaller number was (swap)
         }
     }
 }

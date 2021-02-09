@@ -1,28 +1,3 @@
-/*File managements of a person register
-You should write a program for manage a database of people. The database should be stored to the
-hard disc as a binary file. The function of the program is easiest to understand by reading the
-description and program skeleton below.
-From the main program you should be able to choose between these options:
-1 Create a new and delete the old file.
-2 Add a new person to the file.
-3 Search for a person in the file .
-4 Print out all in the file.
-5 Exit the program.
-After entered the choice the program executes the task and returns to the menu for new choices.
-1. Create a new and delete the old file.
-Program creates a new file with the specified filename (fixed) and writes a first dummy record to
-the file and then close it.
-2. Add a new person to the file.
-First gives an opportunity to put in one new person to a temp record and then add this record in
-the end of the file.
-3. Search for a person in the file.
-Gives you an opportunity to search for all persons with either a specified first name or
-family name ( by choice).The program prints out all person with that name.
-4. Print out all in file.
-Prints out the whole list
- 5. Exit the program.
-Just exits the program.
- */
 /* ====================================
 File name: exerc_3_4.c (or cpp)
 Date: 2021-xx-xx TODO update date
@@ -81,7 +56,7 @@ const char writeToFileMode[] = "wb";
 /* ==================================== Main program section ====================================== */
 /* This program TODO..... */
 
-// TODO... Add check for personal number format, Add comments and Check with TA if we can change methods names and parameters from skeleton code.
+// TODO... Add check for personal number format, Add comments
 
 // Function declaration
 PERSON input_record(void); // Reads in a person record.
@@ -89,6 +64,7 @@ void write_new_file( PERSON *inrecord); // Creates a file and write a first reco
 void printfile(void); // print out all persons in the file
 void search_by_firstname( char *name);// print out person if in list
 void append_file(PERSON *inrecord);// appends a new person to the file
+
 void printMenu();
 int getUserChoice();
 void handleUserChoice(int userChoice);
@@ -123,7 +99,7 @@ int getUserChoice() {
     printf(PROMPT_USER_CHOICE);
     fgets(input,MAX_LENGTH_USER_INPUT, stdin);
     if (input[0] == '\n' || !isdigit(input[0] ) || strlen(input) > 2 ) {
-        return 0;
+        return FALSE;
     } else {
         char *pointer;
         return (int) strtol(input, &pointer,10);
@@ -232,6 +208,7 @@ PERSON input_record(void) {
     free(input);
     printf(PROMPT_PERSONAL_NUMBER);
     input = getUserInput();
+    // TODO ...
     strcpy(person.pers_number, input);
     free(input);
     return person;
@@ -306,6 +283,7 @@ void searchByLastName( char *name) {
     if (!personFound) {
         printf(PERSON_NOT_FOUND_MESSAGE);
     }
+    fclose(file);
     free(name);
 }
 
