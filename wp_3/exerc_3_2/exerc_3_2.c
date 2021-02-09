@@ -99,7 +99,7 @@ int inputValidationInteger(char *input) {
 // if the number is not in the array it returns NOT_FOUND else returns the position
 int search_number(int number, int tab[], int size){
     int i; // index for array
-    for (i = 0; i < size; i++) { // triverse the array
+    for (i = 0; i < size; i++) { // traverse the array
         if (tab[i] == number) { // if the number in the position is equal to the provided number
             return i; // return the position
         }

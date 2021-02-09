@@ -1,10 +1,10 @@
 /* ====================================
-File name: exerc_X_X.c
-Date: 2020-XX-XX
+File name: exerc_3_1.c
+Date: 2020-XX-XX // TODO ..
 Group nr 14
 Members that contribute to the solutions Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time: N/A
-Demonstration code: [<Ass code 1-4> <abc>]
+Demonstration code: [<Ass code 1-4> <abc>] // TODO ....
 ====================================== */
 
 // Include section
@@ -15,7 +15,7 @@ Demonstration code: [<Ass code 1-4> <abc>]
 // Define section
 #define X_AXIS 'x' // string to specify the "x" axis in the coordinate system
 #define Y_AXIS 'y' // string to specify the "y" axis in the coordinate system
-#define PROMPT_USER_STARTING_POSITION "Please enter the starting position for the robot:\n %c axis: " // string to ask for the starting position for a specific axis from the user
+#define PROMPT_USER_STARTING_POSITION "Please enter the starting position for the robot (0-99):\n %c axis: " // string to ask for the starting position for a specific axis from the user
 #define SIZE_USER_INPUT 50 // Used to set the size of the array for the user's input
 #define INVALID_INPUT "Not valid, please try again \n" // Invalid input prompt
 #define EXIT_CHAR 'q' // Character for exiting the program
@@ -24,7 +24,7 @@ Demonstration code: [<Ass code 1-4> <abc>]
 #define UPPER_POSITION_BOUND 99 // Upper accepted value for the position in the coordinates system
 #define VALUE_OUT_OF_BOUNDS "You entered a value that is invalid as for the coordinates. Please enter a value between 0-99 next time!\n" // String to notify the user that they have entered an out of bounds values
 #define INVALID_COMMAND "You have entered an invalid command as for the robot to follow. Please enter a string that contains only \"m\" and/or \"t\" values for the command!\n" // String to notify the user about an incorrect input command
-#define PROMPT_FOR_USER_DIRECTIONS "Please enter a command for the robot to follow! Type \"m\" for moving towards the current direction or \"t\" to turn 90 degrees clockwise!\n" // String to prompt for the user's test command to move the robot
+#define PROMPT_FOR_USER_DIRECTIONS "Please enter a command for the robot to follow! Type a string containing \"m\" for moving towards the current direction and/or \"t\" to turn 90 degrees clockwise!\n" // String to prompt for the user's test command to move the robot
 #define INVALID_INPUT_EMPTY_LINE "A simple [enter] is not a valid input! Please try again!\n" // String to notify the user that an empty line is not accepted
 #define MOVE_FORWARD 'm' // Accepted value for the robot to move forward
 #define TURN_90_DEGREES_CLOCKWISE 't' //  Accepted value for the robot to turn clockwise for 90 degrees
@@ -36,7 +36,7 @@ Demonstration code: [<Ass code 1-4> <abc>]
 #define TRUE 1 // define boolean true
 
 /* ==================================== Main program section ====================================== */
-/*
+/* TODO .... write description
  *
  */
 
@@ -52,32 +52,32 @@ typedef struct{
 ROBOT move(ROBOT robot); // make the robot move forward
 ROBOT turn(ROBOT robot); // make the robot turn clockwise
 int readPosition(char axis); // read the position for an axis from the user
-char *readTestCaseDirections(); // read the test case command which specifies the changes of the robot's direction from the user
-ROBOT processTestCase(const char *testCaseString, ROBOT robot); // process the entered string which is responsible to alter the robot's direction
-int runAnotherTestCase(); // prompt the user for running the program for executing another test case
+char *readSimulationInstruction(); // read the test case command which specifies the changes of the robot's direction from the user
+ROBOT processSimulation(const char *testCaseString, ROBOT robot); // process the entered string which is responsible to alter the robot's direction
+int runAnotherSimulation(); // prompt the user for running the program for executing another test case
 void clear_stdin(); // Function to clear the stdin buffer
 char *checkDirection(int intDirectionRepresentation); // correlate the enum's direction representation to the corresponding direction string, i.e.: 0 == North, and return the string
 
 int main() {
     // Variable declarations
     ROBOT robot; //
-    char *testCaseString = calloc(SIZE_USER_INPUT,sizeof(char));
+    char *testCaseString;
 
     do {
         robot.direction = North; // initialize the robot's direction and set it towards the North
         robot.positionX = readPosition(X_AXIS); // read robot's X axis value from the user
         robot.positionY = readPosition(Y_AXIS); // read robot's Y axis value from the user
 
-        testCaseString = readTestCaseDirections(); // read the instruction command string from the user and assign it to a variable
+        testCaseString = readSimulationInstruction(); // read the instruction command string from the user and assign it to a variable
 
         printf(PRINT_INITIAL_ROBOT_COORDINATES, robot.positionX, robot.positionY, checkDirection(robot.direction)); // print the initial position of the robot, based on the input from the user
 
-        robot = processTestCase(testCaseString, robot); // call the function to process the test case string that was received by the user and update the robots final state
+        robot = processSimulation(testCaseString, robot); // call the function to process the test case string that was received by the user and update the robots final state
 
         printf(PRINT_FINAL_ROBOT_COORDINATES, testCaseString, robot.positionX, robot.positionY, checkDirection(robot.direction)); // print the final position of the robot, based on the processed received command from the user
 
         printf(PRINT_BLOCK_SPACING); // print some spacing block in case of next command round
-    } while (runAnotherTestCase()); // iterate until the user does not want to continue inputting further test case commands to the robot
+    } while (runAnotherSimulation()); // iterate until the user does not want to continue inputting further test case commands to the robot
 
     return 0; // exit the program
 }
@@ -116,7 +116,7 @@ int readPosition(char axis) {
 }
 
 // Function to read the set of instructions from the user and return it as a string
-char *readTestCaseDirections() {
+char *readSimulationInstruction() {
     // Variables declarations
     char *input = calloc(SIZE_USER_INPUT,sizeof(char)); // Create pointer and allocate memory to store the input from the user
     int i; // index for the loop
@@ -141,7 +141,7 @@ char *readTestCaseDirections() {
                 }
             }
         }
-        if (validCommand == TRUE){ // check if there was no invalid command found within the entered instruction set by the user
+        if (validCommand){ // check if there was no invalid command found within the entered instruction set by the user
             input[strlen(input)-1] = '\0'; // remove the \n as the last element of the pointer array and insert the null character to represent the end of string
             return input; // return the string as a valid instruction set for the robot
         }
@@ -149,7 +149,7 @@ char *readTestCaseDirections() {
 }
 
 // Function to process the entered instruction set by the user and alter the robot's coordinates accordingly
-ROBOT processTestCase(const char *testCaseString, ROBOT robot) {
+ROBOT processSimulation(const char *testCaseString, ROBOT robot) {
     int i; // index for the loop
 
     for (i = 0; i < strlen(testCaseString); i++) { // iterate through the characters of the instruction string
@@ -201,7 +201,7 @@ ROBOT turn(ROBOT robot) {
 }
 
 // Function to check if the user wants to input another instruction set
-int runAnotherTestCase() {
+int runAnotherSimulation() {
     // Variables declarations
     char input; // store the user's inputChar
     char secondChar; // store second char to check for error
@@ -211,14 +211,14 @@ int runAnotherTestCase() {
 
     if (input == '\n') { // handle enter
         printf(INVALID_INPUT_EMPTY_LINE); // notify the user of invalid inputChar
-        return runAnotherTestCase(); // recursive call to prompt the user again for a valid inputChar
+        return runAnotherSimulation(); // recursive call to prompt the user again for a valid inputChar
     }
 
     secondChar = getc(stdin); // read second char from buffer
     if (secondChar && secondChar != '\n') { // if there is another char and that char is not a new line
         printf(INVALID_INPUT); // notify the user of invalid inputChar
         clear_stdin(); // call the method to clear the buffer
-        return runAnotherTestCase(); // recursive call to prompt the user again for a valid inputChar
+        return runAnotherSimulation(); // recursive call to prompt the user again for a valid inputChar
     }
 
     if(input == 'y' || input == 'Y') { // covers the case that the user wants to play again
@@ -228,7 +228,7 @@ int runAnotherTestCase() {
         return 0; // return user's response
     } else { // covers the case of invalid inputChar entered by the user
         printf(INVALID_INPUT); // notify the user of invalid inputChar
-        return runAnotherTestCase(); // recursive call to prompt the user again for a valid inputChar
+        return runAnotherSimulation(); // recursive call to prompt the user again for a valid inputChar
     }
 
 }
