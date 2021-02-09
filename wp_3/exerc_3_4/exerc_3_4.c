@@ -63,7 +63,6 @@ const char writeToFileMode[] = "wb"; // defines the write binary mode when openi
 
 // Function declaration
 PERSON inputRecord(void); // Reads in a person record.
-void writeNewFile(PERSON *person); // Creates a file and write a first record
 void printFile(void); // print out all persons in the file
 void searchByFirstName(char *name);// print out person if in list
 void appendFile(PERSON *person);// appends a new person to the file
