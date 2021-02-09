@@ -53,9 +53,9 @@ ROBOT move(ROBOT robot); // make the robot move forward
 ROBOT turn(ROBOT robot); // make the robot turn clockwise
 int readPosition(char axis); // read the position for an axis from the user
 char *readSimulationInstruction(); // read the test case command which specifies the changes of the robot's direction from the user
-ROBOT processSimulation(const char *testCaseString, ROBOT robot); // process the entered string which is responsible to alter the robot's direction
+ROBOT processSimulation(const char *caseString, ROBOT robot); // process the entered string which is responsible to alter the robot's direction
 int runAnotherSimulation(); // prompt the user for running the program for executing another test case
-void clear_stdin(); // Function to clear the stdin buffer
+void clearStdin(); // Function to clear the stdin buffer
 char *checkDirection(int intDirectionRepresentation); // correlate the enum's direction representation to the corresponding direction string, i.e.: 0 == North, and return the string
 
 int main() {
@@ -89,7 +89,7 @@ int readPosition(char axis) {
     int inputNumber; // store the integer representation of the input
 
     if (strlen(input) == (SIZE_USER_INPUT-1) && input[SIZE_USER_INPUT-1] == '\0' ){ // Check if the input array is full
-        clear_stdin(); // call function to clear the buffer
+        clearStdin(); // call function to clear the buffer
     }
 
     do {
@@ -149,13 +149,13 @@ char *readSimulationInstruction() {
 }
 
 // Function to process the entered instruction set by the user and alter the robot's coordinates accordingly
-ROBOT processSimulation(const char *testCaseString, ROBOT robot) {
+ROBOT processSimulation(const char *caseString, ROBOT robot) {
     int i; // index for the loop
 
-    for (i = 0; i < strlen(testCaseString); i++) { // iterate through the characters of the instruction string
-        if (testCaseString[i] == MOVE_FORWARD) { // check if there was detected a "move forward" command
+    for (i = 0; i < strlen(caseString); i++) { // iterate through the characters of the instruction string
+        if (caseString[i] == MOVE_FORWARD) { // check if there was detected a "move forward" command
             robot = move(robot); // call the function to move the robot forward and alter the robot's state
-        } else if (testCaseString[i] == TURN_90_DEGREES_CLOCKWISE) { // check if there was a "turn" command found
+        } else if (caseString[i] == TURN_90_DEGREES_CLOCKWISE) { // check if there was a "turn" command found
             robot = turn(robot); // call the function to turn the robot clockwise and alter the robot's state
         }
     }
@@ -217,7 +217,7 @@ int runAnotherSimulation() {
     secondChar = getc(stdin); // read second char from buffer
     if (secondChar && secondChar != '\n') { // if there is another char and that char is not a new line
         printf(INVALID_INPUT); // notify the user of invalid inputChar
-        clear_stdin(); // call the method to clear the buffer
+        clearStdin(); // call the method to clear the buffer
         return runAnotherSimulation(); // recursive call to prompt the user again for a valid inputChar
     }
 
@@ -234,7 +234,7 @@ int runAnotherSimulation() {
 }
 
 // Function to clear the stdin buffer
-void clear_stdin() {
+void clearStdin() {
     while( getchar() != '\n' ); // iterate and empty the buffer until the EOF character is found
 }
 
