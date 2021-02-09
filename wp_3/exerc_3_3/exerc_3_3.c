@@ -20,8 +20,8 @@ typedef struct q{
 
 //Function declarations
 REGTYPE* randomList(); // Function to create a doubly linked list with length MAX using random numbers 0-100
-REGTYPE* addFirst(REGTYPE* temp, int data); // Function to add a ADD_FIRST_NUMBER to the linked list
-void printList(REGTYPE* head);  // Function to print linked list
+REGTYPE* addFirst(REGTYPE *temp, int data); // Function to add a ADD_FIRST_NUMBER to the linked list
+void printList(REGTYPE *post);  // Function to print linked list
 
 
 //Main program
@@ -79,7 +79,7 @@ REGTYPE* randomList(){
     return(top);    // Return the head of the linked list
 }
 
-REGTYPE* addFirst(REGTYPE* temp, int data){
+REGTYPE* addFirst(REGTYPE *temp, int data){
     //Variable declarations
     REGTYPE *item;  // Variable to be used to push to front of the linked list
     item = (struct q*)malloc(sizeof(struct q)); // Allocate memory for the item
@@ -97,7 +97,7 @@ REGTYPE* addFirst(REGTYPE* temp, int data){
     return temp; // Return the head of the list
 }// Adds a record first i list and set the field tal to data
 
-void printList(REGTYPE* post) {
+void printList(REGTYPE *post) {
     //Variable declarations
     int i = 0; // variable to be used to print the current post number
     while(post != NULL){ // Loop until the end of the list
