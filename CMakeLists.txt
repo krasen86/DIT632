@@ -18,7 +18,7 @@ set(exerc_3_1 wp_3/exerc_3_1/exerc_3_1.c)
 set(exerc_3_2 wp_3/exerc_3_2/exerc_3_2.c)
 set(exerc_3_3 wp_3/exerc_3_3/exerc_3_3.c)
 set(exerc_3_4 wp_3/exerc_3_4/exerc_3_4.c)
-
+set(personalNumberValidator wp_3/exerc_3_4/personalNumberValidator.c)
 
 
 
@@ -36,4 +36,4 @@ add_executable("ex8" ${ex8})
 add_executable("exerc_3_1" ${exerc_3_1})
 add_executable("exerc_3_2" ${exerc_3_2})
 add_executable("exerc_3_3" ${exerc_3_3})
-add_executable("exerc_3_4" ${exerc_3_4})
+add_executable("exerc_3_4" ${exerc_3_4} ${personalNumberValidator})
