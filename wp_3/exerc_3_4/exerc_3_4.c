@@ -60,7 +60,12 @@ const char readFromFileMode[] = "rb"; // defines the read binary mode when openi
 const char writeToFileMode[] = "wb"; // defines the write binary mode when opening a file
 
 /* ==================================== Main program section ====================================== */
-/* This program TODO..... */
+/* This is an implementation of a program used to manage a database of people that is saved as a binary
+ * file. The user has the option to create a file (and delete the old one), add a new person entry into
+ * the database by providing first name, last name and a personal number, which is validated with the use
+ * of the custom library that is being provided. Also, the user can search for a person, as well as print
+ * the contents of the file, with all of its entries.
+ */
 
 // Function declaration
 PERSON inputRecord(void); // Reads in a person record.
