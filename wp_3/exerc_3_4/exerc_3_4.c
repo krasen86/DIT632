@@ -21,11 +21,11 @@ Demonstration code: xxxx TODO replace with code from TA
 #define TRUE 1      // Define true
 #define FALSE 0     // Define false
 #define FILE_NAME "person.bin" // specify the file name
-#define FIRST_MENU_CHOICE "\n1 Create a new and delete the old file.\n" // String to be printed as the first option in the menu
-#define SECOND_MENU_CHOICE "2 Add a new person to the file.\n" // String to be printed as the second option in the menu
-#define THIRD_MENU_CHOICE "3 Search for a person in the file.\n" // String to be printed as the third option in the menu
-#define FOURTH_MENU_CHOICE "4 Print out all in the file.\n" // String to be printed as the fourth option in the menu
-#define FIFTH_MENU_CHOICE "5 Exit the program.\n" // String to be printed as the fifth option in the menu
+#define FIRST_MENU_CHOICE "\n\t1 Create a new and delete the old file.\n" // String to be printed as the first option in the menu
+#define SECOND_MENU_CHOICE "\t2 Add a new person to the file.\n" // String to be printed as the second option in the menu
+#define THIRD_MENU_CHOICE "\t3 Search for a person in the file.\n" // String to be printed as the third option in the menu
+#define FOURTH_MENU_CHOICE "\t4 Print out all in the file.\n" // String to be printed as the fourth option in the menu
+#define FIFTH_MENU_CHOICE "\t5 Exit the program.\n" // String to be printed as the fifth option in the menu
 #define PROMPT_USER_CHOICE "Enter your choice: " // String to be printed to prompt user
 #define MAX_LENGTH_USER_INPUT 100 // accepted size of user input
 #define PROMPT_SEARCH_TYPE "Press 1 to search by first name OR Press 2 to search by last name\n" // Prompt the user to choose an option to search by either specifying the first name or the last name
@@ -33,18 +33,19 @@ Demonstration code: xxxx TODO replace with code from TA
 #define TRY_AGAIN_MESSAGE "Try again: " // String to be printed to prompt for the user's input
 #define PROMPT_FIRST_NAME "Please enter first name: " // String to be printed for the user to enter the first name
 #define PROMPT_LAST_NAME "Please enter last name: " // String to be printed for the user to enter the last name
-#define EXIT_MESSAGE "Thank you for using the application\n" //  Exit message to be printed
-#define PRINT_PERSON_DATA "Person: %s, %s, %s\n" // Print the person's information
-#define PRINT_DUMMY_RECORD "Dummy record: %s, %s, %s\n" // Print dummy information when file was created
+#define EXIT_MESSAGE "\nThank you for using the application!\n" //  Exit message to be printed
+#define PRINT_PERSON_DATA "Person: \n\tFirst Name: \t\t%s\n\tLast name: \t\t\t%s\n\tPersonal number: \t%s\n\n" // Print the person's information
+#define PRINT_DUMMY_RECORD "Dummy record: \n\tFirst Name: \t\t%s\n\tLast name: \t\t\t%s\n\tPersonal number: \t%s\n\n" // Print dummy information when file was created
 #define ERROR_OPENING_FILE "Error opening the file and/or file doesn't exists...\n" // String to be printed when there is an error while trying to open the file
 #define PERSON_NOT_FOUND_MESSAGE "Person with that name was not found.\n" // String to be printed when the search does not find any results
-#define PERSON_FOUND_MESSAGE "Result %d\nPerson found: %s, %s, %s\n" // String used to display the results after finding a person
+#define PERSON_FOUND_MESSAGE "Result %d\nPerson found:\n\tFirst Name: \t\t%s\n\tLast name: \t\t\t%s\n\tPersonal number: \t%s\n\n" // String used to display the results after finding a person
 #define PROMPT_PERSONAL_NUMBER "Please enter your personal number in format <yyyymmddnnnc>: " // Prompt user to enter their personal number
 #define ERROR_ALLOCATION "Memory allocation failed. Please try again\n" // Notify the user for memory allocation failure
 #define NO_FILE_MESSAGE "There is currently no file. Please create a file first...\n" // String to be printed when there is no file created
 #define INVALID_PERSONAL_NUMBER_MESSAGE "You entered an invalid personal number.\n" // String to be printed when an invalid personal number was received
 #define ERROR_CODE_FILE_NOT_FOUND -1 // Error code when the file could not be accessed
-
+#define SUCCESSFUL_PERSON_WRITE "\nThe following entry has been successfully written to the file:\n\tFirst Name: \t\t%s\n\tLast name: \t\t\t%s\n\tPersonal number: \t%s\n\n"
+#define SELECT_MENU_OPTION "Please type a number based on your choice from the list below:"
 // -----Typedefs -------
 // Structure defining a person with a first name, last name and a personal number
 typedef struct {
@@ -93,6 +94,7 @@ int main(void){
 
 // Function to print the main selection menu
 void printMenu() {
+    printf(SELECT_MENU_OPTION);
     printf(FIRST_MENU_CHOICE); // print the first menu option
     printf(SECOND_MENU_CHOICE); // print the second menu option
     printf(THIRD_MENU_CHOICE); // print the third menu option
@@ -265,7 +267,10 @@ void writeToFile(PERSON *person, const char *mode) {
         printf(ERROR_OPENING_FILE); // notify the user for an opening file failure
         return;
     }
+
     fwrite(person, sizeof(PERSON), 1, file); // write one entry for the provided person based on the size of the structure
+    printf(SUCCESSFUL_PERSON_WRITE, person->firstName, person->lastName, person->personalNumber); // print a successful message when writing to the file
+
     fclose(file); // close the file
 };
 
