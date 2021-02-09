@@ -36,8 +36,10 @@ Demonstration code: [<Ass code 1-4> <abc>] // TODO ....
 #define TRUE 1 // define boolean true
 
 /* ==================================== Main program section ====================================== */
-/* TODO .... write description
- *
+/* A test program for a robot implementation that asks the user to provide some initial coordinates for
+ * the robot, as well as a string of instructions which control the robot to either move forward or turn
+ * clockwise 90 degrees. After the execution of the provided instruction set then the final position of
+ * the robot is printed.
  */
 
 enum DIRECTION {North , East, South, West}; // Declaration of enum for the robot's directions
@@ -60,21 +62,21 @@ char *checkDirection(int intDirectionRepresentation); // correlate the enum's di
 
 int main() {
     // Variable declarations
-    ROBOT robot; //
-    char *testCaseString;
+    ROBOT robot; // store the state of the robot
+    char *simulationInstructions; // store the pointer for the instruction set to be simulated by the robot
 
     do {
         robot.direction = North; // initialize the robot's direction and set it towards the North
         robot.positionX = readPosition(X_AXIS); // read robot's X axis value from the user
         robot.positionY = readPosition(Y_AXIS); // read robot's Y axis value from the user
 
-        testCaseString = readSimulationInstruction(); // read the instruction command string from the user and assign it to a variable
+        simulationInstructions = readSimulationInstruction(); // read the instruction command string from the user and assign it to a variable
 
         printf(PRINT_INITIAL_ROBOT_COORDINATES, robot.positionX, robot.positionY, checkDirection(robot.direction)); // print the initial position of the robot, based on the input from the user
 
-        robot = processSimulation(testCaseString, robot); // call the function to process the test case string that was received by the user and update the robots final state
+        robot = processSimulation(simulationInstructions, robot); // call the function to process the test case string that was received by the user and update the robots final state
 
-        printf(PRINT_FINAL_ROBOT_COORDINATES, testCaseString, robot.positionX, robot.positionY, checkDirection(robot.direction)); // print the final position of the robot, based on the processed received command from the user
+        printf(PRINT_FINAL_ROBOT_COORDINATES, simulationInstructions, robot.positionX, robot.positionY, checkDirection(robot.direction)); // print the final position of the robot, based on the processed received command from the user
 
         printf(PRINT_BLOCK_SPACING); // print some spacing block in case of next command round
     } while (runAnotherSimulation()); // iterate until the user does not want to continue inputting further test case commands to the robot
