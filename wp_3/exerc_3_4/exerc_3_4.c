@@ -71,8 +71,6 @@ const char writeToFileMode[] = "wb"; // defines the write binary mode when openi
 PERSON inputRecord(void); // Reads in a person record.
 void printFile(void); // print out all persons in the file
 void searchByFirstName(char *name);// print out person if in list
-void appendFile(PERSON *person);// appends a new person to the file
-
 void printMenu(); // Display the main menu
 int getUserChoice(); // Read the user's choice for the menu options
 void handleUserChoice(int userChoice); // Process the selected option from the menu
@@ -220,7 +218,7 @@ void addNewPersonToFile() {
         return;
     }else{ // if the file exists
         person = inputRecord(); // call the function to initialize the person to be added to the file
-        appendFile(&person); // call the function to add the person to the file
+        writeToFile(&person, appendToFileMode); // call the function to add the person to the file
     }
 }
 
@@ -277,11 +275,6 @@ void writeToFile(PERSON *person, const char *mode) {
     printf(SUCCESSFUL_PERSON_WRITE, person->firstName, person->lastName, person->personalNumber); // print a successful message when writing to the file
 
     fclose(file); // close the file
-};
-
-// Function to add a new entry to the file
-void appendFile(PERSON *person) {
-    writeToFile(person, appendToFileMode); // call the function to write the provided entry in append mode
 }
 
 // Function to search for a person by first name
