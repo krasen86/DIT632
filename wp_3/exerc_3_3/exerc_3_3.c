@@ -1,8 +1,20 @@
+/* ====================================
+File name: exerc_3_3.c (or cpp)
+Date: 2021-xx-xx TODO update date
+Group nr 14
+Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
+Member not present at demonstration time:
+Demonstration code: xxxx TODO replace with code from TA
+====================================== */
+
 // Include section
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
+/* ==================================== Main program section ====================================== */
+/* This program TODO.....
+*/
 
 //Constants
 #define MAX 5   // Define variable for length of the linked list
