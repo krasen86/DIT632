@@ -20,23 +20,25 @@ Demonstration code: xxxx TODO replace with code from TA
 #define PROMP_INPUT_MESSAGE "Please enter a number. To exit press <q>\n" // String used to ask user for input
 #define EXIT_MESSAGE "Thank you for using the application\n" // Goodbye message
 #define WRONG_PARAMETERS_MESSAGE "Not a valid input please try again..\n"
-#define ARRAY_STATE "Current state of the numbers in the array " // string printed before starting to print the array
+#define ARRAY_STATE "Current state of the numbers in the array: " // string printed before starting to print the array
 #define EXIT_CHAR 'q' // exit char represents quit
 #define SIZE_USER_INPUT 20 // max size accepted for user input
 #define TRUE 1      // Define true
 #define FALSE 0     // Define false
 #define EXIT_INPUT_READ (-1) // invalid input
 #define START_SORT_MESSAGE "Sorting the array list\n" // string to display when the sort method is called
+#define ARRAY_EMPTY_MESSAGE "There are no numbers in the provided list\n" // string to notify that the list is empty
 
 /* ==================================== Main program section ====================================== */
-/* This program TODO.....
+/* This program searches for a number (provided from the user) in an predefined array of integers and prints out the position (index) of that number
+ * in the array if the number is there. Than the programme prints the array and sorts it using bubble sort and than prints the sorted list.
 */
 // Function declaration
 int searchNumber(int number, const int *list, int size);
 int readNumber();
 int inputValidationInteger(char *input);
 void printList(int *list, int size);
-void sort (int number, int list []);
+void sort (int size, int list []);
 
 int main() {
     // Variable declarations
@@ -107,14 +109,14 @@ int searchNumber(int number, const int *list, int size){
     return NOT_FOUND; // if the loop has run and the number is not present return NOT_FOUND
 }
 // Sort the array if int given, number represents the size of the array
-void sort (int number, int list []){
+void sort (int size, int list []){
     int i; // index for array
     int j; // index for inner loop
     int minPosition; // store the min number position
     int tempNumber; // store number for swapping
-    for (i = 0; i < number; i++) { // outer loop traverse the array
+    for (i = 0; i < size; i++) { // outer loop traverse the array
         minPosition = i; // set the index for the min number
-        for (j = i + 1; j < number; j++) { // start inner loop for every single number
+        for (j = i + 1; j < size; j++) { // start inner loop for every single number
             if (list[j] < list[minPosition]) { // check if the next number to the end is smaller to the set min position
                 minPosition = j; // if smaller change the minPosition index to point to the smaller number
             }
@@ -130,6 +132,10 @@ void sort (int number, int list []){
 void printList(int *list, int size) {
     printf(ARRAY_STATE); // display starting to print
     int i; // index for array
+    if (size == 0) { // check if the array is empty
+        printf(ARRAY_EMPTY_MESSAGE); // notify user that the array is empty
+        return; // return to main since there is nothing to be printed
+    }
     for(i = 0; i < size; i++) {
         printf("|%d ", list[i]); // iterate over the list and print every number
     }
