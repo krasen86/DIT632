@@ -1,10 +1,10 @@
 /* ====================================
 File name: exerc_3_1.c
-Date: 2020-XX-XX // TODO ..
+Date: 2020-02-11
 Group nr 14
 Members that contribute to the solutions Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time: N/A
-Demonstration code: [<Ass code 1-4> <abc>] // TODO ....
+Demonstration code: 7886
 ====================================== */
 
 // Include section

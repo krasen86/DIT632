@@ -1,10 +1,10 @@
 /* ====================================
 File name: exerc_3_2.c (or cpp)
-Date: 2021-xx-xx TODO update date
+Date: 2021-02-11
 Group nr 14
 Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time:
-Demonstration code: xxxx TODO replace with code from TA
+Demonstration code: 7886
 ====================================== */
 
 // Include section
