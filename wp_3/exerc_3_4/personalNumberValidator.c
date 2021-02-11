@@ -2,6 +2,11 @@
  * by verifying whether the date is within the valid bounds and the control digit
  * is valid by checking it using the Luhn algorithm. The validation works with both
  * 10-digit and 12-digit personal numbers.
+ *
+ * Disclaimer: The following code had been mostly written for the purpose of Exercise
+ * 2.3, and therefore since the solution of Exercise 3.4 requires personal number
+ * validation, it has been used, partially revised and provided as a library in order
+ * to extend the functionality of the implementation in Ex. 3.4.
  */
 
 // Include section

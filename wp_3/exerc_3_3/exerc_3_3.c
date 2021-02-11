@@ -13,7 +13,9 @@ Demonstration code: xxxx TODO replace with code from TA
 #include <time.h>
 
 /* ==================================== Main program section ====================================== */
-/* This program TODO.....
+/* This is a program that creates a doubly linked list and adds 5 random generated numbers into it
+ * and prints it. Afterwards, a new number is pushed in the beginning of the list and prints again
+ * the final version of it.
 */
 
 //Constants
