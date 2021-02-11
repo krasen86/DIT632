@@ -1,10 +1,10 @@
 /* ====================================
 File name: exerc_3_4.c (or cpp)
-Date: 2021-xx-xx TODO update date
+Date: 2021-02-11
 Group nr 14
 Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time:
-Demonstration code: xxxx TODO replace with code from TA
+Demonstration code: 7886
 ====================================== */
 
 // Include section
@@ -97,7 +97,7 @@ int main(void){
 
 // Function to print the main selection menu
 void printMenu() {
-    printf(SELECT_MENU_OPTION);
+    printf(SELECT_MENU_OPTION); // prompt the user to select an option from the menu
     printf(FIRST_MENU_CHOICE); // print the first menu option
     printf(SECOND_MENU_CHOICE); // print the second menu option
     printf(THIRD_MENU_CHOICE); // print the third menu option
