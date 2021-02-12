@@ -86,9 +86,9 @@ The program can read the value of a pressed key on the keyboard as an 8-bit valu
 
 The value (0-15) of a pressed key is the value of bit 0 – 3 in the register. If a key is down when the register is read bit 7 (DAV in figure) is zero otherwise the bit 7 is set (1).
 
-
+<img align="right" src="../images/wp_4/Table%20figure%20exerc_4_3.png" width="40%"/>
 In figure the key with the value 6 is down for the moment.
-[<img src="../images/Table figure exerc_4_3.png">](../images/wp_4/Table%20figure%20exerc_4_3.png)
+
 If no key pressed when reading the register DAV bit is set (1).
 
 To simulate this reading of the keyboard without any hardware for a general C-program we will use help-functions from the course folder. You can find these at the course homepage in **Files/Course week #4**.
@@ -116,8 +116,9 @@ The value in the register should be interpreted as follows: If bit no 7 is zero 
 
 In ThinkerCad you should draw a new circuit as the figure on next page shows. In the circuit PD0-PD7 is used as output bits and connected to the LED:s anode side via a resistor (1kOhm). Bit PB0 is used as an in-bit reading the status from one side of a DIP switch. The value to PB0 will be either 1 or 0 depending on if the DIP switch is on or not.
 
+<img align="right" src="../images/wp_4/Exerc_4_4%20Figure.png" width="60%"/>
+
 The circuit is designed as figure to right shows. A high (1, (5V)) value on an out-bit on PD will light up the diode.
-[<img src="../images/Exerc_4_4%20Figure.png">](../images/wp_4/Exerc_4_4%20Figure.png)
 
 Write a program with the function described below that uses out- and in-port as described above.
 
@@ -134,10 +135,10 @@ The code should be written in C (even though one could use a block-diagram in Ti
   
 For the delay use the delay function as shown in the program skeleton below.
 
+<img align="right" src="../images/wp_4/Exerc_4_4%20Figure%202.png" width="60%"/>
 
 You should use the predefined macros for reading/writing to the registers and in/out ports. You should use PORTx when writing out values and PINx for reading the same port if configured as input port. Just like we used the pins during the lecture. You shall use the predefined structure with the two functions setup() and loop(). Run the program in the simulator to test the function.
 
-[<img src="../images/Exerc_4_4%20Figure%202.png">](../images/wp_4/Exerc_4_4%20Figure%202.png)
 
 **Note** : If you get some problems it can help using the debugger. Before start set a break point. There is also a possible to connect a Multimeter to any part of the circuit. Depending of our use of bit PD1 and PD0 we can ́t use the serial monitor for printing. 
 
@@ -179,18 +180,19 @@ delay(500); // Wait for 500 millisecond(s)
 
 ## Exerc_4.5 (Filename: exerc_4_5.c): Keyboard scanning. (3p)
 
-Some cheap keyboards are not connected to a supporting hardware with register for reading the key number. This simpler device is a bit harder to read. In TinkerCad you can connect such a simple keyboard (Figure) to Arduino Uno and then design a program that reds a pressed key number.
+<img align="right" src="../images/wp_4/Exerc_4_5%20Figure%201.png" width="20%"/>
 
-[<img src="../images/Exerc_4_5%20Figure%201.png">](../images/wp_4/Exerc_4_5%20Figure%201.png)
+Some cheap keyboards are not connected to a supporting hardware with register for reading the key number. This simpler device is a bit harder to read. In TinkerCad you can connect such a simple keyboard (Figure) to Arduino Uno and then design a program that reds a pressed key number.
 
 
 **The principle for the keyboard and reading a key.**
 
 The keyboard is built up by four row connectors and four column connectors. At the 16 crosses between raw and column there is normally no electrical connection. At each cross there is a key and if a key is pressed there will be an electrical connection between the column and raw. (See figure below)
 
-The rows (row 1 to row 4) is possible to connect to anything via the four left bits in the flat connector. On the four right bits the four columns are possible to connect to anything.
 
-[<img src="../images/Exerc_4_5%20Figure%202.png">](../images/wp_4/Exerc_4_5%20Figure%202.png)
+<img align="right" src="../images/wp_4/Exerc_4_5%20Figure%202.png" width="40%"/>
+
+The rows (row 1 to row 4) is possible to connect to anything via the four left bits in the flat connector. On the four right bits the four columns are possible to connect to anything.
 
 The keyboard can be connected to any of Arduino ́s IO-ports. One possibility is to connect all 8 row/columns to Port D and configure the port D as 4 bit out/four bit in. 
 
@@ -202,6 +204,7 @@ To ensure the level (electric) of the columns, when no key is pressed, you norma
 
 **Your task:**
 
+<img align="right" src="../images/wp_4/Exerc_4_5%20Figure%203.png" width="40%"/>
 In Tinkercad you should design a new circuit as described above and shown in the figure to right. We will later expand the circuit so it ́s good to design it as the figure shows. 
 
 You should then, also in Tinkercad, develop a program reading the keyboard system above. The program should print out the key number in the serial monitor if a key is pressed. If no key is pressed there should be nothing printed out.
@@ -218,6 +221,9 @@ printing on the monitor.
    If a key was pressed print out the key value ( 0-9 , A-F) on the serial monitor.
    Delay for one second.
 ```
+<br>
+<br>
+<br>
 
 Demonstrate for TA and hand in the solution as for exercise 4_4.
 
