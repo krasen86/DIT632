@@ -37,3 +37,9 @@ add_executable("exerc_3_1" ${exerc_3_1})
 add_executable("exerc_3_2" ${exerc_3_2})
 add_executable("exerc_3_3" ${exerc_3_3})
 add_executable("exerc_3_4" ${exerc_3_4} ${personalNumberValidator})
+
+# WORK PACKAGE 4
+set(code wp_4/exerc_4_1/code.c)
+
+
+add_executable("code" ${code})
