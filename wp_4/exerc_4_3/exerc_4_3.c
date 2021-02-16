@@ -1,9 +1,4 @@
-/* *******************************
-Program file : bit_manage_function.c
-Peter Lundin / 2016-01-97
-For test IO program function
 
-******************************** */
 
 #include <time.h>
 #include <stdio.h>

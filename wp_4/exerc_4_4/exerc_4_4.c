@@ -37,7 +37,7 @@ void loop() {
 
     input = PINB;
 
-    if (input == 1) {
+    if (input == LOW) {
         if (PORTD == 0b11000000) {
             PORTD = 0b10000001;
         } else if (PORTD == 0b10000001) {
