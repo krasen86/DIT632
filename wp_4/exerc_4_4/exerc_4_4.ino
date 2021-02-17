@@ -1,10 +1,10 @@
 /* ====================================
-File name: exerc_4_4.c
+File name: exerc_4_4.ino
 Date: 2020-XX-XX // TODO .....
 Group nr 14
 Members that contribute to the solutions Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time: N/A
-Demonstration code: [<Ass code 1-4> <abc>] // TODO....
+Demonstration code: [<Ass code 1-4> <abc>] // TODO....CHECK the commented code on lines 39 and 54
 ====================================== */
 
 // ---- Program template for Arduino in Tinkercad VT 2020
@@ -18,15 +18,16 @@ PINB  Inport B
 DDRD  Data direction register D
 PORTD Outport D
 PIND  Inport D
+HIGH ON-1
+LOW OFF-0
 */
 
 
-
 /* ==================================== Main program section ====================================== */
-/* This program is designed using Tinkercad simulation for Arduino Uno. The programme starts with 2 LEDs ON(out of 8)
- * and when the switch is turned ON the LEDs start to shift by one and rotate, when the last LED is ON the ration starts
- * the first LED is set to ON and, after the rotation is repeated continuously while the switch is ON. When the switch is
- * turn back off the shifting stops and the last 2 LEDs stay ON.
+/* This program is designed using Tinkercad(image of the circuit can be seen in file's folder) simulation for Arduino Uno.
+ * The programme starts with 2 LEDs ON(out of 8) and when the switch is turned ON the LEDs start to shift by one and rotate,
+ * when the last LED is ON the ration starts the first LED is set to ON and, after the rotation is repeated continuously while the switch is ON.
+ * When the switch is turn back off the shifting stops and the last 2 LEDs stay ON.
  * */
 
 // Define section
@@ -37,7 +38,7 @@ PIND  Inport D
 #define SHIFTING_INDEX 1 // Number of LEDs to shift left
 #define ENABLE_OUTPUT_REGISTER 0b11111111 // use to set the DDRD register as output
 #define ENABLE_INPUT_REGISTER 0b00000000 // use to set the DDRB register as input
-//#define INPORT_B0 8 // used to read the digital pin 8
+//#define IMPORT_B0 8 // used to read the digital pin 8
 
 // Global variables
 unsigned char input; // used to read and store the input value from the switch
@@ -51,8 +52,8 @@ void setup() {
 
 // Main Loop
 void loop() {
-    input = PINB; // Read continuously the value from the switch from the inPort of pin PB0
-    //input = digitalRead(INPORT_B0); // Read continuously the value from the switch from the inPort of pin PB0
+    input = PINB; // Read continuously the value from the switch from the inPort
+    //input = digitalRead(IMPORT_B0); // Read continuously the value from the switch from the inPort of pin PB0
     if (input == LOW) { // check if the input is LOW since the resistor is set as Pull-UP where the reading is inverted and ON switch is LOW
         if (PORTD == END_LED_VALUE) { // Handle case where last 2 LEDs are on
             PORTD = ROTATION_LED_STATE; // Set the last and the first LEDs to ON (start rotation)
