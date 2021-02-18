@@ -1,10 +1,10 @@
 /* ====================================
 File name: code.c (or cpp)
-Date: 2021-xx-xx TODO update date
+Date: 2021-02-18
 Group nr 14IIm
 Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time:
-Demonstration code: xxxx TODO replace with code from TA
+Demonstration code: 8336
 ====================================== */
 
 // Include section
@@ -13,6 +13,7 @@ Demonstration code: xxxx TODO replace with code from TA
 
 // Define section
 #define INVALID_NUMBER_ARGUMENTS "Please provide 5 values to set the parameters.\n" // used to notify the user for invalid amount of arguments
+#define INVALID_VALUE_ARGUMENTS "Some of the provided values were invalid.\n" // used to notify the user for invalid value in provided arguments
 #define FALSE 0; // define boolean false
 #define TRUE 1; // define boolean true
 
@@ -27,7 +28,7 @@ Demonstration code: xxxx TODO replace with code from TA
 
 // Function declaration
 int validateInputArguments(int size, char *arguments[]);
-unsigned char setParameters(int size, char *arguments[]);
+unsigned char setParameters(char *arguments[]);
 
 int main(int argc, char *argv[]) {
     // Variable declarations
@@ -37,8 +38,11 @@ int main(int argc, char *argv[]) {
     if (argc == 6) { // check if the number of arguments is a valid one, i.e. 5 plus one for the execution of the program
         validArguments = validateInputArguments(argc, argv); // call a function to check if the parameters are within a valid bounds and assign the returned value to validArguments variable
         if (validArguments) { // case of the arguments being within the valid corresponding bounds
-            parameters = setParameters(argc, argv); // call the setParameters function that
+            parameters = setParameters(argv); // call the setParameters function that
             printf("%X \n",parameters); // print the parameters' hexadecimal representation
+        } else {// handle invalid values of provided arguments
+            printf(INVALID_VALUE_ARGUMENTS); // print error message to the user
+            return 0; // exit the program in case of error
         }
     } else { // handle invalid number of provided arguments
         printf(INVALID_NUMBER_ARGUMENTS); // print error message to the user
@@ -48,7 +52,7 @@ int main(int argc, char *argv[]) {
 }
 
 // Function to translate the decimal values of the input parameters to binary.
-unsigned char setParameters(int size, char *arguments[]) {
+unsigned char setParameters(char *arguments[]) {
     unsigned char parameters; // store the parameters
     /* the following code block converts the decimal values of the arguments
      * to a binary representation of it, by first applying bit shifting to

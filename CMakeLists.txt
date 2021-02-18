@@ -42,10 +42,9 @@ add_executable("exerc_3_4" ${exerc_3_4} ${personalNumberValidator})
 set(code wp_4/exerc_4_1/code.c)
 set(decode wp_4/exerc_4_2/decode.c)
 set(exerc_4_3 wp_4/exerc_4_3/exerc_4_3.c)
-set(exerc_4_5 wp_4/exerc_4_5/exerc_4_5.c)
+
 
 
 add_executable("code" ${code})
 add_executable("decode" ${decode})
 add_executable("exerc_4_3" ${exerc_4_3})
-add_executable("exerc_4_5" ${exerc_4_5})

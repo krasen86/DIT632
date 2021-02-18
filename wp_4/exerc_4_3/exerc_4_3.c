@@ -1,17 +1,18 @@
 /* ====================================
 File name: decode.c (or cpp)
-Date: 2021-xx-xx TODO update date
+Date: 2021-02-18
 Group nr 14IIm
 Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time:
-Demonstration code: xxxx TODO replace with code from TA
+Demonstration code: 8336
 ====================================== */
 
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DISPLAY_PRESSED_NUMBER " --------Port value base 10 = %d | Port value base 16 = %X \n" // String that prints the decimal and hexadecimal value of the pressed key
+#define DISPLAY_PRESSED_NUMBER " -------- Pressed key value base 10 = %d -------- Pressed key value base 16 = %X \n" // String that prints the decimal and hexadecimal value of the pressed key
+#define DISPLAY_PORT_BINARY "Port value binary:" // Start message for displaying binary
 
 /* ==================================== Main program section ====================================== */
 /* This program simulates the behavior of reading input from keyboard without any hardware assistance.
@@ -77,6 +78,7 @@ void printPort(int portValue, unsigned int pressedNumber ){
     while( i<8){
         binChar[i++]=0;
     }
+    printf(DISPLAY_PORT_BINARY); // Print message for displaying port binary notification
     // Print bits and at the end corresponding decimal value
     for(j =i-1 ;j > -1;j--)
         printf("  %d",binChar[j]);

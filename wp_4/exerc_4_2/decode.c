@@ -1,10 +1,10 @@
 /* ====================================
 File name: decode.c (or cpp)
-Date: 2021-xx-xx TODO update date
+Date: 2021-02-18
 Group nr 14IIm
 Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time:
-Demonstration code: xxxx TODO replace with code from TA
+Demonstration code: 8336
 ====================================== */
 
 // Include section
@@ -75,12 +75,10 @@ int validateArgs(int argc, char *argv[]){
 unsigned int getBits(unsigned int value, int startPos, int numOfBits) {
     unsigned int bitValue; // int to save the bitvalue into
     unsigned mask; // Mask used for AND statement to get the bit values that you want
-    mask = ((1 << numOfBits) - 1)
-            << startPos; // shift the bits to save only the amount of bits wanted from the start position
+    mask = ((1 << numOfBits) - 1) << startPos; // shift the bits to save only the amount of bits wanted from the start position
     bitValue = value & mask; // AND statement to save the bits wanted into bitvalue
     bitValue = bitValue >> startPos; // Shift the bitvalue to startpos to get all the bits to the right
-    if ((startPos == 4 && bitValue > 4) || (numOfBits == 1 && bitValue > 1) || (startPos == 2 && bitValue >
-                                                                                                 2)) { // Check that the hex given doesn't give an out of bounds value for what we need
+    if ((startPos == 4 && bitValue > 4) || (numOfBits == 1 && bitValue > 1) || (startPos == 2 && bitValue > 2)) { // Check that the hex given doesn't give an out of bounds value for what we need
         printf(INVALID_HEX); // Print error string
         exit(0); // Exit the program on invalid hex
     }
