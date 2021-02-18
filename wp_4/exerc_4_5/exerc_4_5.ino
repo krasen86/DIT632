@@ -52,6 +52,7 @@ void setup()
     Serial.begin(BAUD_RATE); // start and configure the serial monitor with baud rate
     DDRD = ENABLE_INPUT_REGISTER; // setting the data direction register for port D to input
     DDRB = ENABLE_OUTPUT_REGISTER; // setting the last for bits(pins) of data direction register for port B to output(1s)
+    PORTB = ENABLE_OUTPUT_REGISTER; // set the first 4 rows to HIGH by writing 1s to the corresponding PINs on PORTB outport
 }
 
 // Main Loop
@@ -70,13 +71,13 @@ unsigned char checkForKeypadInput()
     unsigned char pressedKey = NOT_PRESSED; // used to store the found charectred set by default to Not-pressed
     unsigned int i,j; // indexes for the loop iterations
     for(i = 0; i < NUMBER_OF_ROWS; i++){ // start a loop to iterate over the rows
-        digitalWrite(rows[i], HIGH); // set the current row to HIGH (activate) for validation
+        digitalWrite(rows[i], LOW); // set the current row to LOW (deactivate) for validation
         for(j = 0; j < NUMBER_OF_COLUMNS; j++){ // start iterating over the columns for the current row
-            if(digitalRead(columns[j]) == HIGH){ // check if the column is HIGH, when HIGH button that connects row and column is pressed
+            if(digitalRead(columns[j]) == LOW){ // check if the column is LOW, when LOW the button that connects row and column is pressed (because of the PULL-UP resistor)
                 pressedKey = keypad[i][j]; // key is found and save the value from the matrix in the variable
             }
         }
-        digitalWrite(rows[i], LOW); // set back the current row to LOW (deactivate)
+        digitalWrite(rows[i], HIGH); // set back the current row to HIGH (activate)
     }
     return pressedKey; // return the key value if found
 }
