@@ -9,9 +9,12 @@
 [Here](./wp_2/) you can find the descriptions for the second work package exercises.
 
 ## Work package 3
+
 [Here](./wp_3/) you can find the descriptions for the third work package exercises.
 
 ## Work package 4
+
+[Here](./wp_4/) you can find the descriptions for the third work package exercises.
 
 ## Work package 5
 
