@@ -1,4 +1,5 @@
 /* ====================================
+File name: exerc_5_2.ino
 Date: TODO
 Group nr 14
 Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
@@ -65,7 +66,7 @@ void setup()
     DDRB = ENABLE_OUTPUT_REGISTER; // setting the last for bits(pins) of data direction register for port B to output(1s)
     lastInterrupt = 0; // initialize the last interrupt to default value of 0
     attachInterrupt(digitalPinToInterrupt(interruptPin), checkForKeypadInput, FALLING); // attach interrupt to the interruptPin and define the interrupt trigger as Falling(LOW)
-    // and attach the method to check for keypad button on the interrupt
+                                                                                        // and attach the method to check for keypad button on the interrupt
     readAndDisplayTemperature(); // call method to read the temperature and display it
 }
 
