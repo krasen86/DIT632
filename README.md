@@ -18,4 +18,6 @@
 
 ## Work package 5
 
+[Here](./wp_5/) you can find the descriptions for the third work package exercises.
+
 ## Work package 6
