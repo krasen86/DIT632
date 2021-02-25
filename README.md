@@ -14,10 +14,10 @@
 
 ## Work package 4
 
-[Here](./wp_4/) you can find the descriptions for the third work package exercises.
+[Here](./wp_4/) you can find the descriptions for the fourth work package exercises.
 
 ## Work package 5
 
-[Here](./wp_5/) you can find the descriptions for the third work package exercises.
+[Here](./wp_5/) you can find the descriptions for the fifth work package exercises.
 
 ## Work package 6
