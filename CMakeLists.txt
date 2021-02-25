@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(DIT632 C)
 
 set(CMAKE_C_STANDARD 11)
+SET(CMAKE_C_FLAGS -pthread)
 
 # WORK PACKAGE 2
 set(ex1 wp_2/exerc_2_1/exerc_2_1.c)
@@ -48,3 +49,6 @@ set(exerc_4_3 wp_4/exerc_4_3/exerc_4_3.c)
 add_executable("code" ${code})
 add_executable("decode" ${decode})
 add_executable("exerc_4_3" ${exerc_4_3})
+
+set(exerc_6_1 wp_6/skeleton/sortandfind_20.c)
+add_executable("exerc_6_1" ${exerc_6_1})
