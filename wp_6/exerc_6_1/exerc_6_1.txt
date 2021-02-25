@@ -1,0 +1,28 @@
+Exercise 6_1
+Test of threads       (exerc 6_1.c) (1p)
+
+On the homepage in Canvas you can find a file sortandfind_20.c .
+The code performs the following operations:
+1.It creates an array of integer numbers with the given number of elements.
+2.Fills such array with random integer numbers whose max value is given by the user. There is a dummy delay in this random generator part just to view the problem in question 5.
+3.Sorts the array.4.Looks for a specific value given by the user using binary search.
+
+Answer the following questions:
+
+1.How many threads (in total) are created during the execution of the program?
+One thread is created during the run of the programme (line 25), that is in addition to the main thread.
+
+2.What are lines 16, 17,  20, 25 and 26 intended for?
+At line 16 we declare a pointer to a structure of type pthread_t where the thread Id and information is stored.
+At line 17 we declare a pointer to a structure of type pthread_attr_t that can be used to define the attributes of the thread that is to be created.
+At line 20 we initialize the thread attribute pointer with default values by calling the pthread_attr_init() method.
+AT line 25 we create a thread by using the pthread_create method and passing the thread pointer, thread attribute pointer as well as the function to be executed on that thread, and last argument is Null since we don't pass any parameters to the function.
+At line 26 we wait for the thread created to finish.
+
+3.How many parameters are passed to function runner?
+Null for the one parameters, the function take by default a void pointer as a parameter but since when we create the thread we give a Null as argument we don't pass any arguments.
+4.How can function runner know the values for parameters that, such as max value, not are passed to it?
+Since both the function runner and main are running in the same process the share the same memory but have different scopes. That's why we can still access the global variables.
+5.Test how the behavior of the program changes if line 26 is omitted. Explain why.
+
+To do : Study the program and write your answer in a simple text document exerc6_1.txt and view it for the TA and they will give you a pass code if ok. Hand it in together with the other files.
