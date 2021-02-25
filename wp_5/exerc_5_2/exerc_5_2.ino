@@ -1,10 +1,10 @@
 /* ====================================
 File name: exerc_5_2.ino
-Date: TODO
+Date: 2021-02-25
 Group nr 14
 Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
 Member not present at demonstration time:
-Demonstration code: TODO
+Demonstration code: 8909
 ====================================== */
 
 /* --- Macros predefined for the compiler
