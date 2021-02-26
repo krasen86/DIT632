@@ -13,7 +13,7 @@ Demonstration code: xxxx TODO replace with code from TA
 #include <pthread.h>
 
 // Define section
-
+#define UPPER_TIME_BOUND 50
 
 /* ==================================== Main program section ====================================== */
 /* This program TODO..... */
@@ -35,22 +35,25 @@ int main(){
     pthread_create(&readInPortThreadId, &attr, readInPort, NULL);
 
 
-    while ( programTime < 50){
-        if (programTime == previousTime + 1) {
+    while ( programTime < UPPER_TIME_BOUND){
+
+        if (programTime == previousTime + 1 && programTime < UPPER_TIME_BOUND) {
             printf("System time: %d\n", programTime);
             previousTime = programTime;
         }
     }
+
+    return 0;
 }
 
 // Thread functions
 void *timeCount(void *param) {
-    double previousTime =  getTimeInMilliSeconds();
+    double previousTime =  getTimeInMilliSeconds()/1000;
 
     while ( programTime < 50){
-        if ( getTimeInMilliSeconds() == previousTime + 1) {
+        if ( getTimeInMilliSeconds()/1000 == previousTime + 1.0) {
             programTime++;
-            previousTime = getTimeInMilliSeconds();
+            previousTime = getTimeInMilliSeconds()/1000;
         }
 
     }
@@ -59,12 +62,12 @@ void *timeCount(void *param) {
 }
 
 void *readInPort(void *param) {
-    double previousTime =  getTimeInMilliSeconds();
+    double previousTime =  getTimeInMilliSeconds()/1000;
 
-    while (programTime<50){
-        if ( getTimeInMilliSeconds() == previousTime + 5) {
-            printf("Reading value now...");
-            previousTime = getTimeInMilliSeconds();
+    while (programTime < UPPER_TIME_BOUND){
+        if ( getTimeInMilliSeconds()/1000 == previousTime + 5.0) {
+            printf("Reading value now...\n");
+            previousTime = getTimeInMilliSeconds()/1000;
         }
     }
     pthread_exit(0);
