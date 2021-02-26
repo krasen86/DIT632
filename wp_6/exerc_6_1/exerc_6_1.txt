@@ -21,8 +21,11 @@ At line 26 we wait for the thread created to finish.
 
 3.How many parameters are passed to function runner?
 Null for the one parameters, the function take by default a void pointer as a parameter but since when we create the thread we give a Null as argument we don't pass any arguments.
+
 4.How can function runner know the values for parameters that, such as max value, not are passed to it?
 Since both the function runner and main are running in the same process the share the same memory but have different scopes. That's why we can still access the global variables.
+
 5.Test how the behavior of the program changes if line 26 is omitted. Explain why.
+When line 26 is commented out the programme will not wait for the thread to finish running and it will continue executing the rest of the code, which will result in the sorting array to complete before the array is fill out with numbers. The result will be an unsorted array witch we can't search with the current algortithm, since binary search requires a sorted array. So by commenting line 26 we won't be able to find the number in the array.
 
 To do : Study the program and write your answer in a simple text document exerc6_1.txt and view it for the TA and they will give you a pass code if ok. Hand it in together with the other files.
