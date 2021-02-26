@@ -14,11 +14,18 @@ Demonstration code: xxxx TODO replace with code from TA
 
 // Define section
 #define UPPER_TIME_BOUND 50
-
+#define DISPLAY_SYSTEM_TIME "System time: %d\n"
+#define READING_PORT_MESSAGE "Reading value now...\n"
+#define SECONDS_TO_MILLISECONDS 1000
+#define READ_IN_PORT_DELAY 5.0
+#define TIME_DELAY 1.0
 /* ==================================== Main program section ====================================== */
 /* This program TODO..... */
 
+// Global variables
 int programTime = 0;
+
+//Function declaration
 void *timeCount(void *param);
 void *readInPort(void *param);
 double getTimeInMilliSeconds();
@@ -37,23 +44,22 @@ int main(){
 
     while ( programTime < UPPER_TIME_BOUND){
 
-        if (programTime == previousTime + 1 && programTime < UPPER_TIME_BOUND) {
-            printf("System time: %d\n", programTime);
+        if (programTime == previousTime + TIME_DELAY && programTime < UPPER_TIME_BOUND) {
+            printf(DISPLAY_SYSTEM_TIME, programTime);
             previousTime = programTime;
         }
     }
-
     return 0;
 }
 
 // Thread functions
 void *timeCount(void *param) {
-    double previousTime =  getTimeInMilliSeconds()/1000;
+    double previousTime =  getTimeInMilliSeconds()/SECONDS_TO_MILLISECONDS;
 
-    while ( programTime < 50){
-        if ( getTimeInMilliSeconds()/1000 == previousTime + 1.0) {
+    while ( programTime < UPPER_TIME_BOUND){
+        if ( getTimeInMilliSeconds()/SECONDS_TO_MILLISECONDS == previousTime + TIME_DELAY) {
             programTime++;
-            previousTime = getTimeInMilliSeconds()/1000;
+            previousTime = getTimeInMilliSeconds()/SECONDS_TO_MILLISECONDS;
         }
 
     }
@@ -62,12 +68,12 @@ void *timeCount(void *param) {
 }
 
 void *readInPort(void *param) {
-    double previousTime =  getTimeInMilliSeconds()/1000;
+    double previousTime =  getTimeInMilliSeconds()/SECONDS_TO_MILLISECONDS;
 
     while (programTime < UPPER_TIME_BOUND){
-        if ( getTimeInMilliSeconds()/1000 == previousTime + 5.0) {
-            printf("Reading value now...\n");
-            previousTime = getTimeInMilliSeconds()/1000;
+        if ( getTimeInMilliSeconds()/SECONDS_TO_MILLISECONDS == previousTime + READ_IN_PORT_DELAY) {
+            printf(READING_PORT_MESSAGE);
+            previousTime = getTimeInMilliSeconds()/SECONDS_TO_MILLISECONDS;
         }
     }
     pthread_exit(0);
