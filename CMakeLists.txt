@@ -14,16 +14,6 @@ set(ex6 wp_2/exerc_2_6/exerc_2_6.c)
 set(ex7 wp_2/exerc_2_7/exerc_2_7.c)
 set(ex8 wp_2/exerc_2_8/exerc_2_8.c)
 
-# WORK PACKAGE 3
-set(exerc_3_1 wp_3/exerc_3_1/exerc_3_1.c)
-set(exerc_3_2 wp_3/exerc_3_2/exerc_3_2.c)
-set(exerc_3_3 wp_3/exerc_3_3/exerc_3_3.c)
-set(exerc_3_4 wp_3/exerc_3_4/exerc_3_4.c)
-set(personalNumberValidator wp_3/exerc_3_4/personalNumberValidator.c)
-
-
-
-# WORK PACKAGE 2
 add_executable("ex1" ${ex1})
 add_executable("ex2" ${ex2})
 add_executable("ex3" ${ex3})
@@ -34,6 +24,12 @@ add_executable("ex7" ${ex7})
 add_executable("ex8" ${ex8})
 
 # WORK PACKAGE 3
+set(exerc_3_1 wp_3/exerc_3_1/exerc_3_1.c)
+set(exerc_3_2 wp_3/exerc_3_2/exerc_3_2.c)
+set(exerc_3_3 wp_3/exerc_3_3/exerc_3_3.c)
+set(exerc_3_4 wp_3/exerc_3_4/exerc_3_4.c)
+set(personalNumberValidator wp_3/exerc_3_4/personalNumberValidator.c)
+
 add_executable("exerc_3_1" ${exerc_3_1})
 add_executable("exerc_3_2" ${exerc_3_2})
 add_executable("exerc_3_3" ${exerc_3_3})
@@ -44,11 +40,13 @@ set(code wp_4/exerc_4_1/code.c)
 set(decode wp_4/exerc_4_2/decode.c)
 set(exerc_4_3 wp_4/exerc_4_3/exerc_4_3.c)
 
-
-
 add_executable("code" ${code})
 add_executable("decode" ${decode})
 add_executable("exerc_4_3" ${exerc_4_3})
 
+# WORK PACKAGE 6
 set(exerc_6_1 wp_6/skeleton/sortandfind_20.c)
+set(exerc_6_2 wp_6/exerc_6_2/exerc_6_2.c)
+
 add_executable("exerc_6_1" ${exerc_6_1})
+add_executable("exerc_6_2" ${exerc_6_2})
