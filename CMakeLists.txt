@@ -47,6 +47,8 @@ add_executable("exerc_4_3" ${exerc_4_3})
 # WORK PACKAGE 6
 set(exerc_6_1 wp_6/skeleton/sortandfind_20.c)
 set(exerc_6_2 wp_6/exerc_6_2/exerc_6_2.c)
+set(exerc_6_4 wp_6/exerc_6_4/exerc_6_4.c)
 
 add_executable("exerc_6_1" ${exerc_6_1})
 add_executable("exerc_6_2" ${exerc_6_2})
+add_executable("exerc_6_4" ${exerc_6_4})
