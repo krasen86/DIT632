@@ -20,9 +20,10 @@ int outpos = 0; // index for next character to be read ( fetch )
 
 void *put();
 void *fetch();
+void wait(int loops);
 
 int main(){
-    int i;
+    int i = 0;
     pthread_t putThreadId;
     pthread_t fetchThreadId;
     pthread_attr_t attr;
@@ -32,33 +33,41 @@ int main(){
     pthread_create(&fetchThreadId, &attr, fetch, NULL);
 
     while(1){
-        //printf("Main is executing...");
-
+        wait(10000000);
+        printf("Main is executing\n");
     }
 
+}
+
+void wait(int loops){
+    int i = 0;
+    while(i < loops) {
+        i++;
+    }
 }
 
 
 void *put(){
     while(1){
         pthread_mutex_lock(&count_mutex);
-        if(pthread_cond_wait(&not_full, &count_mutex)) {
-            if (count < 10) {
-                buffer[inpos] = letter;
-                printf("Buffer store\n");
-                if (letter == 'z') {
-                    letter = 'a';
-                } else {
-                    letter++;
-                }
-                if (inpos == MAX - 1) {
-                    inpos = 0;
-                } else {
-                    inpos++;
-                }
-                count++;
-                pthread_cond_signal(&not_empty);
+        while(count > 0) {
+            pthread_cond_wait(&not_full, &count_mutex);
+        }
+        if (count < 10) {
+            buffer[inpos] = letter;
+            printf("Buffer store\n");
+            if (letter == 'z') {
+                letter = 'a';
+            } else {
+                letter++;
             }
+            if (inpos == MAX - 1) {
+                inpos = 0;
+            } else {
+                inpos++;
+            }
+            count++;
+            pthread_cond_signal(&not_empty);
         }
         pthread_mutex_unlock(&count_mutex);
     }
@@ -68,17 +77,18 @@ void *put(){
 void *fetch(){
     while(1){
         pthread_mutex_lock(&count_mutex);
-        if(pthread_cond_wait(&not_empty, &count_mutex)) {
-            if (count > 0) {
-                printf("%c\n", buffer[outpos]);
-                if (outpos == MAX - 1) {
-                    outpos = 0;
-                } else {
-                    outpos++;
-                }
-                count--;
-                pthread_cond_signal(&not_full);
+        while(count == 0) {
+            pthread_cond_wait(&not_empty, &count_mutex);
+        }
+        if (count > 0) {
+            printf("%c\n", buffer[outpos]);
+            if (outpos == MAX - 1) {
+                outpos = 0;
+            } else {
+                outpos++;
             }
+            count--;
+            pthread_cond_signal(&not_full);
         }else{
             pthread_cond_signal(&not_full);
         }
