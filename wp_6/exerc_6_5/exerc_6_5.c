@@ -90,17 +90,16 @@ void *fetch(void *param){
         if(count == 0) { // check if buffer does not contain any letters
             pthread_cond_wait(&notEmpty, &countMutex); // send a conditional signal to the threads that the buffer is not empty
         }
-        if (count > 0) { // check if buffer contains any letters
-            printf(FETCH_THREAD_PRINT, buffer[nextOutPosition]); // print out the next letter in the buffer
-            if (nextOutPosition == MAX - 1) { //  check if the nextOutPosition index has reached the last position in the array
-                nextOutPosition = 0; // reset the next position to point to the first position of the buffer
-            } else {  // base case
-                nextOutPosition++; // increment the nextOutPosition index
-            }
-            count--; // decrement the counter
-            wait(THREAD_DELAY); // delay the run of the thread
-            pthread_cond_signal(&notFull); // send a conditional signal to the threads that the buffer is not full
+        printf(FETCH_THREAD_PRINT, buffer[nextOutPosition]); // print out the next letter in the buffer
+        if (nextOutPosition == MAX - 1) { //  check if the nextOutPosition index has reached the last position in the array
+            nextOutPosition = 0; // reset the next position to point to the first position of the buffer
+        } else {  // base case
+            nextOutPosition++; // increment the nextOutPosition index
         }
+        count--; // decrement the counter
+        wait(THREAD_DELAY); // delay the run of the thread
+        pthread_cond_signal(&notFull); // send a conditional signal to the threads that the buffer is not full
+
         pthread_mutex_unlock(&countMutex); // call the mutex unlock and pass the mutex("key") in order to unlock the risk area
     }
 }
