@@ -37,7 +37,7 @@ int readNumber();
 int main() {
     int number;
     time_t t;
-    pthread_t tid; // TODO: check if using the same thread is the way to go. It works but maybe...?
+    pthread_t tid;
     pthread_attr_t attr;
 
     srand((unsigned) time(&t));
@@ -101,11 +101,11 @@ void *findNumber(int *number) {
     int last = num_elems - 1;
     int middle = (first + last) / 2;
 
-    // TODO: Ask the TA if it is okay to remove the following for-loop:
     int n;
     for(n=0; n<num_elems; n++){
-        printf("\n %d", array[n]);
+        printf(" %d", array[n]);
     }
+    printf("\n");
 
     printf(THREAD_EXECUTION_ARRAY_SEARCHING);
     while (first <= last) {
