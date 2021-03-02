@@ -1,10 +1,18 @@
-// Skeleton for exercise nr 5 in WP 6 course DIT632.
-// File skeleton_exerc_6_5.c
+/* ====================================
+File name: exerc_6_5.c
+Date: 2021-xx-xx TODO update date
+Group nr 14
+Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
+Member not present at demonstration time:
+Demonstration code: xxxx TODO replace with code from TA
+====================================== */
+
+// Include section
 #include <stdio.h>
 #include <pthread.h>
 
 // Define section
-#define MAX 10 //buffer size
+#define MAX 10 // buffer size
 #define MAIN_THREAD_PRINT "Main is executing\n" // notification for main thread is running
 #define BUFFER_STORE_STRING "Buffer store\n" // notification for the put thread storing
 #define BUFFER_OUTPUT_STRING "Buffer output: %c\n" // notification for the fetch thread outputting the letter
@@ -12,6 +20,11 @@
 #define LAST_LETTER 'z' // define last letter of alphabet
 #define THREAD_DELAY 3000000 // delay the running of the threads
 #define MAIN_DELAY 5000000 // delay the running of the main method/thread
+
+
+/* ==================================== Main program section ====================================== */
+/* This program TODO .... */
+
 
 pthread_mutex_t countMutex = PTHREAD_MUTEX_INITIALIZER; // define and initialize the mutex for controlling the thread
 pthread_cond_t  notEmpty = PTHREAD_COND_INITIALIZER; // define the condition signal used for notifying the mutex for the status of the buffer and control the thread execution
