@@ -22,15 +22,13 @@ int main () {
     while(1){
         status = getStatus();
         if(status & 0b1000) {
-            printf("hye");
             if(isDoorOpen()){
-                delay(10);
+                delay(5);
                 closeDoor();
             }else{
                 openDoor();
                 while(!isDoorOpen());
-                printf("Yup");
-                delay(10);
+                delay(5);
                 closeDoor();
             }
         }
@@ -38,13 +36,12 @@ int main () {
 }
 
 unsigned int getStatus(){
-    return 0b1000;
-    //return ML13_Status;
+    return ML13_Status;
 }
 
 int isDoorOpen(){
     if(status & 0B10000){
-        return FALSE;
+        return TRUE;
     }else{
         return FALSE;
     }
@@ -59,15 +56,10 @@ void openDoor(){
 }
 
 void delay(int time){
-    // Converting time into milli_seconds
-    int milli_seconds = 1000 * time;
+    clock_t currentTime = 0;
+    clock_t startTime = clock() / CLOCKS_PER_SEC;
 
-    // Storing start time
-    clock_t start_time = clock();
-
-    // looping till required time is not achieved
-    while (clock() < start_time + milli_seconds){
-        printf("Clocking");
+    while (currentTime < startTime + time){
+        currentTime = clock() / CLOCKS_PER_SEC;
     }
-
 }
