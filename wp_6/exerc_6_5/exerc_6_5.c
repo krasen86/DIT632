@@ -4,15 +4,20 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "EndlessLoop"
 pthread_mutex_t count_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t  not_empty = PTHREAD_COND_INITIALIZER;
 pthread_cond_t  not_full = PTHREAD_COND_INITIALIZER;
 
-// Global buffer and corresponding counters.
-char  letter = 'a'; //the starting letter
 #define MAX 10//buffer size
+#define MAIN_THREAD_PRINT "Main is executing\n"
+#define PUT_THREAD_PRINT "Buffer store\n"
+#define FETCH_THREAD_PRINT "Buffer output: %c\n"
+#define BUFFER_FULL_STRING "Buffer full\n"
+#define FIRST_LETTER 'a'
+#define LAST_LETTER 'z'
+
+// Global buffer and corresponding counters.
+char  letter = FIRST_LETTER; //the starting letter
 unsigned short count = 0;
 char buffer[MAX]; // circular buffer
 int inpos = 0; // index for next character to be put in buffer (put)
@@ -33,8 +38,8 @@ int main(){
     pthread_create(&fetchThreadId, &attr, fetch, NULL);
 
     while(1){
-        wait(10000000);
-        printf("Main is executing\n");
+        wait(5000000);
+        printf(MAIN_THREAD_PRINT);
     }
 
 }
@@ -55,9 +60,9 @@ void *put(){
         }
         if (count < 10) {
             buffer[inpos] = letter;
-            printf("Buffer store\n");
-            if (letter == 'z') {
-                letter = 'a';
+            printf(PUT_THREAD_PRINT);
+            if (letter == LAST_LETTER) {
+                letter = FIRST_LETTER;
             } else {
                 letter++;
             }
@@ -67,7 +72,10 @@ void *put(){
                 inpos++;
             }
             count++;
+            wait(3000000);
             pthread_cond_signal(&not_empty);
+        }else{
+            printf(BUFFER_FULL_STRING);
         }
         pthread_mutex_unlock(&count_mutex);
     }
@@ -81,7 +89,7 @@ void *fetch(){
             pthread_cond_wait(&not_empty, &count_mutex);
         }
         if (count > 0) {
-            printf("%c\n", buffer[outpos]);
+            printf(FETCH_THREAD_PRINT, buffer[outpos]);
             if (outpos == MAX - 1) {
                 outpos = 0;
             } else {
@@ -90,10 +98,9 @@ void *fetch(){
             count--;
             pthread_cond_signal(&not_full);
         }else{
+            wait(3000000);
             pthread_cond_signal(&not_full);
         }
         pthread_mutex_unlock(&count_mutex);
     }
 }
-
-#pragma clang diagnostic pop
