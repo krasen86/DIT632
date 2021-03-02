@@ -6,9 +6,8 @@
 // Define section
 #define MAX 10 //buffer size
 #define MAIN_THREAD_PRINT "Main is executing\n" // notification for main thread is running
-#define PUT_THREAD_PRINT "Buffer store\n" // notification for the put thread storing
-#define FETCH_THREAD_PRINT "Buffer output: %c\n" // notification for the fetch thread outputting the letter
-#define BUFFER_FULL_STRING "Buffer full\n" // print out when the buffer is full
+#define BUFFER_STORE_STRING "Buffer store\n" // notification for the put thread storing
+#define BUFFER_OUTPUT_STRING "Buffer output: %c\n" // notification for the fetch thread outputting the letter
 #define FIRST_LETTER 'a' // define first letter of alphabet
 #define LAST_LETTER 'z' // define last letter of alphabet
 #define THREAD_DELAY 3000000 // delay the running of the threads
@@ -60,24 +59,21 @@ void *put(void *param){
         if(count > 0) { // check if there are elements in the buffer
             pthread_cond_wait(&notFull, &countMutex); // set a conditional wait for the thread until the not_full signal is signaled and pass the mutex
         }
-        if (count < MAX) { // check if count is less than the Max buffer elements
-            buffer[nextInPosition] = letter; // write a letter in the buffer
-            printf(PUT_THREAD_PRINT); // notify that a letter has been stored in the buffer
-            if (letter == LAST_LETTER) { // check if the letter has reached the last alphabetical letter
-                letter = FIRST_LETTER; // set the letter to be the first letter of the alphabet
-            } else { // base case
-                letter++; // increment the letter
-            }
-            if (nextInPosition == MAX - 1) { // check if the nextPosition index has reached the last position in the array
-                nextInPosition = 0; // reset the next position to point to the first position of the buffer
-            } else { // base case
-                nextInPosition++; // increment the nextPosition index
-            }
-            count++; // increment the count
-            wait(THREAD_DELAY); // delay the run of the thread
-        }else { // in case buffer is more or equal to max elements
-            printf(BUFFER_FULL_STRING); // notify that the buffer is full
+        buffer[nextInPosition] = letter; // write a letter in the buffer
+        printf(BUFFER_STORE_STRING); // notify that a letter has been stored in the buffer
+        if (letter == LAST_LETTER) { // check if the letter has reached the last alphabetical letter
+            letter = FIRST_LETTER; // set the letter to be the first letter of the alphabet
+        } else { // base case
+            letter++; // increment the letter
         }
+        if (nextInPosition == MAX - 1) { // check if the nextPosition index has reached the last position in the array
+            nextInPosition = 0; // reset the next position to point to the first position of the buffer
+        } else { // base case
+            nextInPosition++; // increment the nextPosition index
+        }
+        count++; // increment the count
+        wait(THREAD_DELAY); // delay the run of the thread
+
         pthread_cond_signal(&notEmpty); // send a conditional signal to the threads that the buffer is not empty
         pthread_mutex_unlock(&countMutex); // call the mutex unlock and pass the mutex("key") in order to unlock the risk area
     }
@@ -90,7 +86,7 @@ void *fetch(void *param){
         if(count == 0) { // check if buffer does not contain any letters
             pthread_cond_wait(&notEmpty, &countMutex); // send a conditional signal to the threads that the buffer is not empty
         }
-        printf(FETCH_THREAD_PRINT, buffer[nextOutPosition]); // print out the next letter in the buffer
+        printf(BUFFER_OUTPUT_STRING, buffer[nextOutPosition]); // print out the next letter in the buffer
         if (nextOutPosition == MAX - 1) { //  check if the nextOutPosition index has reached the last position in the array
             nextOutPosition = 0; // reset the next position to point to the first position of the buffer
         } else {  // base case
