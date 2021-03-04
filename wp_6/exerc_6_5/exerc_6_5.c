@@ -20,10 +20,14 @@ Demonstration code: 4542
 #define LAST_LETTER 'z' // define last letter of alphabet
 #define THREAD_DELAY 3000000 // delay the running of the threads
 #define MAIN_DELAY 5000000 // delay the running of the main method/thread
-
+#define BUFFER_FULL "Buffer is full!\n" // string to be printed whenever the buffer is full
 
 /* ==================================== Main program section ====================================== */
-/* This program TODO .... */
+/* This program creates two threads in order to simulate the functionality of a circular buffer in which
+ * one of the threads inserts letters from the alphabet to the buffer, whereas the second thread prints
+ * the letters from the buffer to the terminal. Each of the threads uses signaling in order to make sure
+ * that the program does not print duplicate values and/or fill the buffer passed its maxed value.
+ * */
 
 
 pthread_mutex_t countMutex = PTHREAD_MUTEX_INITIALIZER; // define and initialize the mutex for controlling the thread
@@ -69,7 +73,8 @@ void wait(int loops){
 void *put(void *param){
     while(1){ // start thread loop
         pthread_mutex_lock(&countMutex); // call the mutex lock and pass the mutex("key") in order to lock the risk area while operating on a shared resources
-        if(count > 0) { // check if there are elements in the buffer
+        if(count == MAX) { // check if the buffer is full
+            printf(BUFFER_FULL); // print a message when the buffer is full
             pthread_cond_wait(&notFull, &countMutex); // set a conditional wait for the thread until the not_full signal is signaled and pass the mutex
         }
         buffer[nextInPosition] = letter; // write a letter in the buffer
