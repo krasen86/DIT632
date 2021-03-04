@@ -1,3 +1,11 @@
+/* ====================================
+File name: exerc_6_3.c (or cpp)
+Date: 2021-03-04
+Group nr 14
+Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
+Member not present at demonstration time:
+Demonstration code: 4542
+====================================== */
 #include <stdio.h>
 #include <time.h>
 

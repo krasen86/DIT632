@@ -1,5 +1,11 @@
-Exercise 6_1
-Test of threads       (exerc 6_1.c) (1p)
+/* ====================================
+File name: exerc_6_1.c
+Date: 2021-03-04
+Group nr 14
+Members that contribute to the solutions: Krasen Parvanov, Chrysostomos Tsagkidis, Eemil Jeskanen
+Member not present at demonstration time:
+Demonstration code: 4542
+====================================== */
 
 On the homepage in Canvas you can find a file sortandfind_20.c .
 The code performs the following operations:
