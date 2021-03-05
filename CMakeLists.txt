@@ -58,4 +58,8 @@ add_executable("exerc_6_4" ${exerc_6_4})
 add_executable("exerc_6_5" ${exerc_6_5})
 
 set(client_server client_server/person.h)
+set(person client_server/person.c)
+set(server client_server/server.c)
+add_executable("person" ${person})
+add_executable("server" ${server} ${person})
 

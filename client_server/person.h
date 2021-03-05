@@ -1,10 +1,7 @@
-//
-// Created by krasen on 2021-03-05.
-//
-
 #ifndef DIT632_PERSON_H
 #define DIT632_PERSON_H
-
+#include <stdio.h>
+#include <stdlib.h>
 #define MAX 20 // max size for the structure array attributes
 typedef struct Person{
     char personFirstName[MAX]; // person's given Name
@@ -24,4 +21,5 @@ void printList();
 int getNumberOfPersons();
 struct Person* getAll();
 
+List *head;
 #endif //DIT632_PERSON_H
