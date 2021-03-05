@@ -56,3 +56,6 @@ add_executable("exerc_6_2" ${exerc_6_2})
 add_executable("exerc_6_3" ${exerc_6_3})
 add_executable("exerc_6_4" ${exerc_6_4})
 add_executable("exerc_6_5" ${exerc_6_5})
+
+set(client_server client_server/person.h)
+
