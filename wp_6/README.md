@@ -3,7 +3,7 @@
 
 ## Exerc_6_1
 
-This exercise is based on the provided [*sortandfine_20.c*](skeleton/sortandfind_20.c) file. The code performs the following operations:
+This exercise is based on the provided [*sortandfind_20.c*](skeleton/sortandfind_20.c) file. The code performs the following operations:
 
 1. It creates an array of integer numbers with the given number of elements.
 2. Fills such array with random integer numbers whose max value is given by the user. There is a dummy delay in this random generator part just to view the problem in question 5. 
