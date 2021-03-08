@@ -62,4 +62,5 @@ set(person client_server/person.c)
 set(server client_server/server.c)
 add_executable("person" ${person})
 add_executable("server" ${server} ${person})
-
+set(client client_server/client.c)
+add_executable("client" ${client})
