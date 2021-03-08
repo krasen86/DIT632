@@ -21,8 +21,9 @@ int main(){
 
     int iAddrLen = sizeof(addrSocket);
 
-    int* strReply = malloc(sizeof (int));
-    *strReply = getNumberOfPersons();
+    char* strReply = malloc(sizeof (int));
+    sprintf(strReply, "%d", getNumberOfPersons());
+
     // Creating socket file descriptor
     // IPv4 and TCP
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {

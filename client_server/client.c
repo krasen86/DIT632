@@ -41,7 +41,7 @@ int main(){
         printf("Error while receiving server's msg\n");
         return -1;
     }
-    printf("%d\n", *server_message);
+    printf("%c\n", *server_message);
 
     memset(server_message, '\0', sizeof(*server_message));
 
