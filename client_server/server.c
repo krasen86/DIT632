@@ -21,7 +21,7 @@ int main(){
 
     int iAddrLen = sizeof(addrSocket);
 
-    char* strReply = malloc(sizeof (int));
+    char* strReply = malloc(sizeof (char));
     sprintf(strReply, "%d", getNumberOfPersons());
 
     // Creating socket file descriptor
@@ -64,15 +64,15 @@ int main(){
         exit(1);
     }
     // send something over the socket
-    if (send(iSocket, strReply, 1, 0) < 0) {
-        printf("Error sending the message to the client %s. Not really a problem on our side. \n", strerror(errno));
-    }
+//    if (send(iSocket, strReply, 1, 0) < 0) {
+//        printf("Error sending the message to the client %s. Not really a problem on our side. \n", strerror(errno));
+//    }
 
-    Person person = head ->person;
-    if (send(iSocket, &person, strlen(&person), 0) < 0) {
-        printf("Error sending the message to the client %s. Not really a problem on our side. \n", strerror(errno));
-    }
 
+        Person *person = &head->person;
+        if (send(iSocket, person, sizeof (*person), 0) < 0) {
+            printf("Error sending the message to the client %s. Not really a problem on our side. \n", strerror(errno));
+        }
 
     close(server_fd);
 
