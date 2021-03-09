@@ -36,16 +36,16 @@ int main(){
     }
     printf("Connected with server successfully\n");
 
-//    // Receive the server's response:
-//    if (recv(iSocket, server_message, sizeof(server_message), 0) < 0) {
-//        printf("Error while receiving server's msg\n");
-//        return -1;
-//    }
-//    printf("%c\n", *server_message);
+    // Receive the server's response:
+    if (recv(iSocket, server_message, sizeof(server_message), 0) < 0) {
+        printf("Error while receiving server's msg\n");
+        return -1;
+    }
+    printf("%c\n", *server_message);
 
-//    memset(server_message, '\0', sizeof(*server_message));
+    memset(server_message, '\0', sizeof(*server_message));
 
-        if (recv(iSocket, server_message, sizeof(char) * 2000, 0) < 0) {
+        if (recv(iSocket, server_message, sizeof(char) * 20000, 0) < 0) {
             printf("Error while receiving server's msg\n");
             return -1;
         }
