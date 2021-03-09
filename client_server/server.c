@@ -5,8 +5,6 @@
 #include <errno.h>
 #include <unistd.h>
 
-
-void printList();
 void populateList();
 
 int main(){
@@ -67,12 +65,14 @@ int main(){
     if (send(iSocket, strReply, 1, 0) < 0) {
         printf("Error sending the message to the client %s. Not really a problem on our side. \n", strerror(errno));
     }
-
-
-        Person *person = &head->person;
+    List *temp = head;
+    while (temp) {
+        Person *person = &temp->person;
         if (send(iSocket, person, sizeof (*person), 0) < 0) {
             printf("Error sending the message to the client %s. Not really a problem on our side. \n", strerror(errno));
         }
+        temp = temp -> next;
+    }
 
     close(server_fd);
 

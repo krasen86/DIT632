@@ -44,18 +44,23 @@ int main(){
     printf("%c\n", *server_message);
 
     memset(server_message, '\0', sizeof(*server_message));
+    while (1) {
 
         if (recv(iSocket, server_message, sizeof(char) * 20000, 0) < 0) {
             printf("Error while receiving server's msg\n");
             return -1;
         }
-    printf("Message: %s\n", server_message);
+        if (strlen(server_message) > 0) {
+            printf("Message  %s\n", server_message);
+            Person *person;
+            person = (Person*) server_message;
+            printf("%s\n", person->personFirstName);
+            printf("%s\n", person->personLastName);
+            memset(server_message, '\0', sizeof(*server_message));
+        }
 
-    Person *person;
-    person = (Person*) server_message;
-    printf("%s\n", person->personFirstName);
-    printf("%s\n", person->personLastName);
-    memset(server_message, '\0', sizeof(*server_message));
+    }
+
 
     close(iSocket);
 }
