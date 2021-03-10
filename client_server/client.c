@@ -1,19 +1,31 @@
+#ifdef WIN32
+#include <winsock2.h>                // link to the winsock library, only for VC cl
+#pragma comment(lib,"ws2_32.lib")   // Winsock Library
+#else
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <arpa/inet.h>
-#include <unistd.h>
 #include "person.h"
-
 int main(){
     int iSocket;
     struct sockaddr_in server_addr;
     char *server_message;
     int PORT = 8080;
     server_message = malloc(2000 * sizeof (char));
+#ifdef WIN32
+    WSADATA mywsadata; //your wsadata struct, it will be filled by WSAStartup
 
+    if (WSAStartup(MAKEWORD(2, 2), &mywsadata) != 0)
+    {
+        printf("Failed. Error Code : %d", WSAGetLastError());
+        return 1;
+    }
+#endif
     // Create socket:
     iSocket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -36,8 +48,8 @@ int main(){
     }
     printf("Connected with server successfully\n");
 
-    // Receive the server's response:
-    if (recv(iSocket, server_message, sizeof(server_message), 0) < 0) {
+//    // Receive the server's response:
+    if (recv(iSocket, server_message, sizeof(*server_message), 0) < 0) {
         printf("Error while receiving server's msg\n");
         return -1;
     }
@@ -45,9 +57,9 @@ int main(){
 
     memset(server_message, '\0', sizeof(*server_message));
     while (1) {
-
-        if (recv(iSocket, server_message, sizeof(char) * 20000, 0) < 0) {
-            printf("Error while receiving server's msg\n");
+        int error = recv(iSocket, server_message, sizeof(Person), 0);
+        if (error< 0) {
+            printf("Error while receiving server's msg: %d\n", error);
             return -1;
         }
         if (strlen(server_message) > 0) {
@@ -61,6 +73,10 @@ int main(){
 
     }
 
-
+#ifdef WIN32
+    closesocket(iSocket);
+    WSACleanup();
+#else
     close(iSocket);
+#endif
 }

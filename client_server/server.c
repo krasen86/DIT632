@@ -1,16 +1,25 @@
-#include "person.h"
-#include "string.h"
+#ifdef WIN32
+#include <winsock2.h>                // link to the winsock library, only for VC cl
+#pragma comment(lib,"ws2_32.lib")   // Winsock Library
+#else
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <errno.h>
 #include <unistd.h>
+#endif
+#include "person.h"
+#include "string.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void populateList();
 
 int main(){
     populateList();
     printList();
-
+#ifdef WIN32
+    WSADATA wsa;
+#endif
     int server_fd;      // server file description
     int iSocket;        // socket id
     struct sockaddr_in addrSocket;  // socket's address
@@ -21,7 +30,13 @@ int main(){
 
     char* strReply = malloc(sizeof (char));
     sprintf(strReply, "%d", getNumberOfPersons());
-
+#ifdef WIN32
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
+    {
+        printf("Failed. Error Code : %d", WSAGetLastError());
+        return 1;
+    }
+#endif
     // Creating socket file descriptor
     // IPv4 and TCP
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -61,7 +76,7 @@ int main(){
         printf("Error: Could not accept a connection: %s. Exiting...\n", strerror(errno));
         exit(1);
     }
-    // send something over the socket
+//    // send something over the socket
     if (send(iSocket, strReply, 1, 0) < 0) {
         printf("Error sending the message to the client %s. Not really a problem on our side. \n", strerror(errno));
     }
@@ -73,8 +88,13 @@ int main(){
         }
         temp = temp -> next;
     }
-
-    close(server_fd);
+    // Close the socket
+#ifdef WIN32
+    closesocket(iSocket);
+    WSACleanup();
+#else
+    close(iSocket);
+#endif
 
 
 }
